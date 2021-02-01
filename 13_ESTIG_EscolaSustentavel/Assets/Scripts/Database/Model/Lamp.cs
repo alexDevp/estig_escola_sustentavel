@@ -1,4 +1,4 @@
-namespace Database
+namespace Database.Model
 {
     public class Lamp
     {
