@@ -88101,7 +88101,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1421784501}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
 --- !u!1 &1421840271
 GameObject:
   m_ObjectHideFlags: 0
@@ -88236,14 +88235,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1421840271}
   m_CullTransparentMesh: 0
-=======
---- !u!4 &1423915596 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5689836240047891900, guid: 12a7577dc07855b4a856c59c90dbe20d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1578751234}
-  m_PrefabAsset: {fileID: 0}
->>>>>>> 5baf824... Parking Lot changes
 --- !u!1 &1425114643
 GameObject:
   m_ObjectHideFlags: 0
@@ -91223,7 +91214,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
-<<<<<<< HEAD
 --- !u!1 &1500297024
 GameObject:
   m_ObjectHideFlags: 0
@@ -91358,14 +91348,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500297024}
   m_CullTransparentMesh: 0
-=======
---- !u!4 &1495657510 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5689836240047891900, guid: 12a7577dc07855b4a856c59c90dbe20d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1924604351}
-  m_PrefabAsset: {fileID: 0}
->>>>>>> 5baf824... Parking Lot changes
 --- !u!1001 &1500548768
 PrefabInstance:
   m_ObjectHideFlags: 0
