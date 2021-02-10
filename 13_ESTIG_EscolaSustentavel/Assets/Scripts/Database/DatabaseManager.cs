@@ -43,19 +43,19 @@ namespace Database
                 string lampsTable =
                     "CREATE TABLE IF NOT EXISTS[lamps] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(50) NOT NULL," +
                     " unit_count INTEGER NOT NULL, unit_price REAL NOT NULL, points INTEGER NOT NULL, energy_before INTEGER NOT NULL," +
-                    " energy_after INTEGER NOT NULL, power INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL);";
+                    " energy_after INTEGER NOT NULL, power INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL, image_path VARCHAR(250) NOT NULL);";
 
                 string sensorsTable =
                     "CREATE TABLE IF NOT EXISTS[sensors] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(50) NOT NULL," +
                     " unit_count INTEGER NOT NULL, unit_price REAL NOT NULL, points INTEGER NOT NULL, energy_before INTEGER NOT NULL," +
                     " reach INTEGER NOT NULL, angle INTEGER NOT NULL," +
-                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL);";
+                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL, image_path VARCHAR(250) NOT NULL);";
 
                 string panelsTable =
                     "CREATE TABLE IF NOT EXISTS[panels] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(50) NOT NULL," +
                     " unit_count INTEGER NOT NULL, unit_price REAL NOT NULL, points INTEGER NOT NULL, energy_before INTEGER NOT NULL," +
                     " dimension_w INTEGER NOT NULL, dimension_h INTEGER NOT NULL, power INTEGER NOT NULL," +
-                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL);";
+                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL, image_path VARCHAR(250) NOT NULL);";
 
                 string scoresTable =
                     "CREATE TABLE IF NOT EXISTS[scores] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username VARCHAR(50) NOT NULL," +
@@ -162,17 +162,17 @@ namespace Database
                 // Values for query
                 string lamp1 = "'Lampâdas LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before +
                                ", " + energyAfterLamp1 +
-                               ", 10, '', '', ''";
+                               ", 10, '', '', '', ''";
                 string lamp2 = "'Lampâdas LED 20W', " + unitLamp2 + ", " + priceLamp2 +
                                ", 500," + energy_before + ", " + energyAfterLamp2 +
-                               ", 20, '', '', ''";
+                               ", 20, '', '', '', ''";
                 string lamp3 = "'Lampâdas LED 50W', " + unitLamp3 +
                                ", " + priceLamp3 + ", 1500, " + energy_before + ", " + energyAfterLamp3 +
-                               ", 50, '', '', ''";
+                               ", 50, '', '', '',''";
 
                 // Query to insert in DB
                 string insert =
-                    "INSERT INTO lamps(name, unit_count, unit_price, points, energy_before, energy_after, power, info_text, positive_text, negative_text) VALUES(" +
+                    "INSERT INTO lamps(name, unit_count, unit_price, points, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path) VALUES(" +
                     lamp1 + "), (" + lamp2 + "), (" + lamp3 + ");";
 
                 // Executes the insert
@@ -232,14 +232,14 @@ namespace Database
                 // Values for query
                 string sensor1 = "'Sensor 180º', " + unitSensor1 + ", " + priceSensors1 + ", " + reachSensor + ", " +
                                  angleSensor1 + ", 500, " + energy_before +
-                                 ", " + energyAfterSensors + ",'', '', ''";
+                                 ", " + energyAfterSensors + ",'', '', '', ''";
                 string sensor2 = "'Sensor 360º', " + unitSensor2 + ", " + priceSensors2 + ", " + reachSensor + ", " +
                                  angleSensor2 + ", 1000," + energy_before + ", " + energyAfterSensors +
-                                 ", '', '', ''";
+                                 ", '', '', '', ''";
 
                 // Query to insert in DB
                 string insert =
-                    "INSERT INTO sensors(name, unit_count, unit_price, reach, angle, points, energy_before, energy_after, info_text, positive_text, negative_text) VALUES(" +
+                    "INSERT INTO sensors(name, unit_count, unit_price, reach, angle, points, energy_before, energy_after, info_text, positive_text, negative_text, image_path) VALUES(" +
                     sensor1 + "), (" + sensor2 + ");";
 
                 // Executes the insert
@@ -308,19 +308,19 @@ namespace Database
                 // Values for query
                 string panel1 = "'Painéis Solares no Estacionamento', " + unitPanel1 + ", " + pricePanel1 + ", 2000," +
                                 panelw1 + "," + panelh1 + ", " + energy_before + ", " + energyAfterPanel1 +
-                                ", 20, '', '', ''";
+                                ", 20, '', '', '', ''";
                 string panel2 = "'Painéis Solares no Telhado do Edifício Escolar', " + unitPanel2 + ", " + pricePanel2 +
                                 ", 3000," +
                                 panelw2 + "," + panelh2 + ", " + energy_before + ", " + energyAfterPanel2 +
-                                ", 330, '', '', ''";
+                                ", 330, '', '', '', ''";
                 string panel3 = "'Painéis Solares no Estacionamento e no Telhado do Edifício Escolar', " + unitPanel3 +
                                 ", " + pricePanel3 + ", 1000," +
                                 panelw3 + "," + panelh3 + ", " + energy_before + ", " + energyAfterPanel3 +
-                                ", 350, '', '', ''";
+                                ", 350, '', '', '', ''";
 
                 // Query to insert in DB
                 string insert =
-                    "INSERT INTO panels(name, unit_count, unit_price, points, dimension_w, dimension_h, energy_before, energy_after, power, info_text, positive_text, negative_text) VALUES(" +
+                    "INSERT INTO panels(name, unit_count, unit_price, points, dimension_w, dimension_h, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path) VALUES(" +
                     panel1 + "), (" + panel2 + "), (" + panel3 + ");";
 
                 // Executes the insert
