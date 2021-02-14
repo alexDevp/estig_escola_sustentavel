@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Common;
+using Database.Model;
 
 namespace Database
 {
@@ -9,18 +11,36 @@ namespace Database
     public class DatabaseManager : MonoBehaviour
     {
         private string DatabaseName = "/Database/13_estig_escola_sustentavel.db";
-        SqliteConnection DatabaseConnection;
+        private SqliteConnection _databaseConnection;
+        private string _filepath;
 
-        SqliteCommand DatabaseCommand;
+        public SqliteConnection DatabaseConnection
+        {
+            get => _databaseConnection;
+            set => _databaseConnection = value;
+        }
+
+        public string Filepath
+        {
+            get => _filepath;
+            set => _filepath = value;
+        }
+
+        private SqliteCommand _databaseCommand;
+
+        public SqliteCommand DatabaseCommand
+        {
+            get => _databaseCommand;
+            set => _databaseCommand = value;
+        }
 
         // Start is called before the first frame update
         void Start()
         {
-            string filepath = "URI=file:" + Application.dataPath + DatabaseName;
-            Debug.Log("dataPath : " + Application.dataPath);
+            Filepath = "URI=file:" + Application.dataPath + DatabaseName;
             //string conn = "URI=file:" + filepath;
             //var dbconn = new SqliteConnection(conn);
-            DatabaseConnection = new SqliteConnection(filepath);
+            DatabaseConnection = new SqliteConnection(Filepath);
             OpenConnection();
             CreateTables();
             PopulateDatabase();
@@ -101,19 +121,19 @@ namespace Database
                 DatabaseCommand = DatabaseConnection.CreateCommand();
 
                 // Checks if there is any panels rows in DB. If not, populates the lamps table
-                if (GetLamps() == null)
+                if (GetLamps(0) == null)
                 {
                     InsertLampsIntoDB();
                 }
 
                 // Checks if there is any panels rows in DB. If not, populates the sensors table
-                if (GetSensors() == null)
+                if (GetSensors(0) == null)
                 {
                     InsertSensorsIntoDB();
                 }
 
                 // Checks if there is any panels rows in DB. If not, populates the panels table
-                if (GetPanels() == null)
+                if (GetPanels(0) == null)
                 {
                     InsertPanelsIntoDB();
                 }
@@ -342,48 +362,128 @@ namespace Database
             }
         }
 
+        /**
+         * Inserts a Score into Scores table
+         */
+        public void InsertScoreIntoDB(Score score)
+        {
+            using (DatabaseConnection)
+            {
+                // Opens DBConnection
+                OpenConnection();
+
+                using (DatabaseCommand = DatabaseConnection.CreateCommand())
+                {
+                    // Query to insert in DB
+                    string insert =
+                        string.Format(
+                            "INSERT INTO scores(username, score, timepassed, created_at, lamp_id, panels_id, sensors_id) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6})",
+                            score.Username, score.ScoreValue, score.Timepassed, score.CreatedAt, score.LampId,
+                            score.PanelsId, score.SensorsId);
+                    DatabaseCommand.CommandText = insert;
+                    DatabaseCommand.ExecuteScalar();
+                    CloseConnection();
+                }
+            }
+        }
+
 
         /**
          * Gets rows from Lamps table
          */
-        public object GetLamps()
+        public Lamp GetLamps(int id)
         {
             using (DatabaseConnection)
             {
                 // Open DB Connection
                 OpenConnection();
-                DatabaseCommand = DatabaseConnection.CreateCommand();
+                string queryCheckIfExistsLamps;
 
-                string queryCheckIfExistsLamps = "SELECT * FROM lamps";
-                DatabaseCommand.CommandText = queryCheckIfExistsLamps;
-                object ob = DatabaseCommand.ExecuteScalar();
+                if (id == 0)
+                {
+                    queryCheckIfExistsLamps = "SELECT * FROM lamps;";
+                }
+                else
+                {
+                    queryCheckIfExistsLamps = "SELECT * FROM lamps WHERE id= " + id + ";";
+                }
 
-                // Closes DB connection
-                CloseConnection();
+                using (DatabaseCommand = DatabaseConnection.CreateCommand())
+                {
+                    DatabaseCommand.CommandText = queryCheckIfExistsLamps;
 
-                return ob;
+                    using (SqliteDataReader ob = DatabaseCommand.ExecuteReader())
+                    {
+                        Lamp lamp = null;
+
+                        while (ob.Read() && ob.HasRows)
+                        {
+                            lamp = new Lamp(Convert.ToInt32(ob["id"]), Convert.ToString(ob["name"]),
+                                Convert.ToInt32(ob["unit_count"]),
+                                Convert.ToDouble(ob["unit_price"]), Convert.ToInt32(ob["points"]),
+                                Convert.ToInt32(ob["energy_before"]),
+                                Convert.ToInt32(ob["power"]), Convert.ToInt32(ob["energy_after"]),
+                                Convert.ToString(ob["info_text"]),
+                                Convert.ToString(ob["positive_text"]), Convert.ToString(ob["negative_text"]),
+                                Convert.ToString(ob["image_path"]), Convert.ToString(ob["arrangement_image_path"]));
+                        }
+
+                        // Closes DB connection
+                        CloseConnection();
+
+                        return lamp;
+                    }
+                }
             }
         }
 
         /**
          * Gets rows from Sensors table
          */
-        public object GetSensors()
+        public Sensor GetSensors(int id)
         {
             using (DatabaseConnection)
             {
                 // Open DB Connection
                 OpenConnection();
-                DatabaseCommand = DatabaseConnection.CreateCommand();
+                string queryCheckIfExistsSensors;
 
-                string queryCheckIfExistsSensors = "SELECT * FROM sensors";
-                DatabaseCommand.CommandText = queryCheckIfExistsSensors;
-                object ob = DatabaseCommand.ExecuteScalar();
+                if (id == 0)
+                {
+                    queryCheckIfExistsSensors = "SELECT * FROM sensors;";
+                }
+                else
+                {
+                    queryCheckIfExistsSensors = "SELECT * FROM sensors WHERE id= " + id + ";";
+                }
 
-                // Closes DB connection
-                CloseConnection();
+                using (DatabaseCommand = DatabaseConnection.CreateCommand())
+                {
+                    DatabaseCommand.CommandText = queryCheckIfExistsSensors;
 
-                return ob;
+                    using (SqliteDataReader ob = DatabaseCommand.ExecuteReader())
+                    {
+                        Sensor sensor = null;
+
+                        while (ob.Read() && ob.HasRows)
+                        {
+                            sensor = new Sensor(Convert.ToInt32(ob["id"]), Convert.ToString(ob["name"]),
+                                Convert.ToInt32(ob["unit_count"]),
+                                Convert.ToDouble(ob["unit_price"]), Convert.ToInt32(ob["points"]),
+                                Convert.ToInt32(ob["energy_before"]),
+                                Convert.ToInt32(ob["reach"]), Convert.ToInt32(ob["angle"]),
+                                Convert.ToInt32(ob["energy_after"]),
+                                Convert.ToString(ob["info_text"]), Convert.ToString(ob["positive_text"]),
+                                Convert.ToString(ob["negative_path"]), Convert.ToString(ob["image_path"]),
+                                Convert.ToString(ob["arrangement_image_path"]));
+                        }
+
+                        // Closes DB connection
+                        CloseConnection();
+
+                        return sensor;
+                    }
+                }
             }
         }
 
@@ -391,22 +491,51 @@ namespace Database
         /**
          * Gets rows from Panels table
          */
-        public object GetPanels()
+        public Panel GetPanels(int id)
         {
             using (DatabaseConnection)
             {
                 // Open DB Connection
                 OpenConnection();
-                DatabaseCommand = DatabaseConnection.CreateCommand();
+                string queryCheckIfExistsPanels;
 
-                string queryCheckIfExistsPanels = "SELECT * FROM panels";
-                DatabaseCommand.CommandText = queryCheckIfExistsPanels;
-                object ob = DatabaseCommand.ExecuteScalar();
+                if (id == 0)
+                {
+                    queryCheckIfExistsPanels = "SELECT * FROM panels;";
+                }
+                else
+                {
+                    queryCheckIfExistsPanels = "SELECT * FROM panels WHERE id= " + id + ";";
+                }
 
-                // Closes DB connection
-                CloseConnection();
+                using (DatabaseCommand = DatabaseConnection.CreateCommand())
+                {
+                    DatabaseCommand.CommandText = queryCheckIfExistsPanels;
 
-                return ob;
+                    using (SqliteDataReader ob = DatabaseCommand.ExecuteReader())
+                    {
+                        Panel panel = null;
+
+                        while (ob.Read() && ob.HasRows)
+                        {
+                            panel = new Panel(Convert.ToInt32(ob["id"]), Convert.ToString(ob["name"]),
+                                Convert.ToInt32(ob["unit_count"]),
+                                Convert.ToDouble(ob["unit_price"]), Convert.ToInt32(ob["points"]),
+                                Convert.ToInt32(ob["energy_before"]),
+                                Convert.ToInt32(ob["dimension_width"]), Convert.ToInt32(ob["dimension_height"]),
+                                Convert.ToInt32(ob["power"]),
+                                Convert.ToInt32(ob["energy_after"]), Convert.ToString(ob["info_text"]),
+                                Convert.ToString(ob["positive_text"]),
+                                Convert.ToString(ob["negative_path"]), Convert.ToString(ob["image_path"]),
+                                Convert.ToString(ob["arrangement_image_path"]));
+                        }
+
+                        // Closes DB connection
+                        CloseConnection();
+
+                        return panel;
+                    }
+                }
             }
         }
 
@@ -414,7 +543,7 @@ namespace Database
         /**
          * Opens DB Connection
          */
-        private void OpenConnection()
+        public void OpenConnection()
         {
             if (DatabaseConnection.State == ConnectionState.Closed)
             {
@@ -425,7 +554,7 @@ namespace Database
         /**
          * Closes DB Connection
          */
-        private void CloseConnection()
+        public void CloseConnection()
         {
             if (DatabaseConnection.State == ConnectionState.Open)
             {

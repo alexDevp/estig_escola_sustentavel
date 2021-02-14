@@ -13,8 +13,22 @@ namespace Database.Model
         private string _infoText;
         private string _positiveText;
         private string _negativeText;
+        private string _image_path;
+        private string _arrangement_image_path;
 
-        public Lamp(int id, string name, int unitCount, double unitPrice, int points, int energyBefore, int power, int energyAfter, string infoText, string positiveText, string negativeText)
+        public string ImagePath
+        {
+            get => _image_path;
+            set => _image_path = value;
+        }
+
+        public string ArrangementImagePath
+        {
+            get => _arrangement_image_path;
+            set => _arrangement_image_path = value;
+        }
+
+        public Lamp(int id, string name, int unitCount, double unitPrice, int points, int energyBefore, int power, int energyAfter, string infoText, string positiveText, string negativeText, string imagePath, string arrangementImagePath)
         {
             _id = id;
             _name = name;
@@ -27,7 +41,10 @@ namespace Database.Model
             _infoText = infoText;
             _positiveText = positiveText;
             _negativeText = negativeText;
+            _image_path = imagePath;
+            _arrangement_image_path = arrangementImagePath;
         }
+
 
         public int ID
         {

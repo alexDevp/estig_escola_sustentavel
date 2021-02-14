@@ -4,18 +4,18 @@ namespace Database.Model
     {
         private int _id;
         private string _username;
-        private int _score;
+        private int _scoreValue;
         private int _timepassed;
         private long _createdAt;
         private int _lampId;
         private int _panelsId;
         private int _sensorsId;
 
-        public Score(int id, string username, int score, int timepassed, long createdAt, int lampId, int panelsId, int sensorsId)
+        public Score(int id, string username, int scoreValue, int timepassed, long createdAt, int lampId, int panelsId, int sensorsId)
         {
             _id = id;
             _username = username;
-            _score = score;
+            _scoreValue = scoreValue;
             _timepassed = timepassed;
             _createdAt = createdAt;
             _lampId = lampId;
@@ -35,10 +35,10 @@ namespace Database.Model
             set => _username = value;
         }
 
-        public int Score1
+        public int ScoreValue
         {
-            get => _score;
-            set => _score = value;
+            get => _scoreValue;
+            set => _scoreValue = value;
         }
 
         public int Timepassed
