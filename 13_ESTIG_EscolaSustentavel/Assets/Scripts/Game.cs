@@ -5,11 +5,12 @@ using UnityEngine;
 public class Game : MonoBehaviour{
 
     public string name = "";
+    public int orcamento = 65000;
+    public int pontuacao = 0; 
     public int lampadas = 0;
     public int paineis = 0;
     public int sensores = 0;
-
-
+    
     //*****Botões dos Menus*****//
 
     //*****Paineis*****//
@@ -36,18 +37,21 @@ public class Game : MonoBehaviour{
     public void OpcaoUmLampadas()
     {
         lampadas = 1;
+        //TODO Get da bd para popular as labels com a info das lampadas 1
     }
 
     //Seleciona a opção de implementação 2 das Lampadas
     public void OpcaoDoisLampadas()
     {
         lampadas = 2;
+        //TODO Get da bd para popular as labels com a info das lampadas 2
     }
 
     //Seleciona a opção de implementação 3 das Lampadas
     public void OpcaoTresLampadas()
     {
         lampadas = 3;
+        //TODO Get da bd para popular as labels com a info das lampadas 3
     }
 
     //*****Sensores*****//
@@ -55,12 +59,14 @@ public class Game : MonoBehaviour{
     public void OpcaoUmSensores()
     {
         sensores = 1;
+        //TODO Get da bd para popular as labels com a info dos sensores 1
     }
 
     //Seleciona a opção de implementação 2 dos paineis solares
     public void OpcaoDoisSensores()
     {
         sensores = 2;
+        //TODO Get da bd para popular as labels com a info dos sensores 2
     }
 
     //*****Confirmar Implementações*****//
