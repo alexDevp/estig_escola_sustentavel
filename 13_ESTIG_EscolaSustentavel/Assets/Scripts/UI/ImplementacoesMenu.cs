@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ImplementacoesMenu : MonoBehaviour
 {
-    public static bool MenuIsOpen = false;
+    public static bool menuIsOpen = false;
 
-    public GameObject ImplementacoesMenuUI;
+    public GameObject implementationsMenuUI;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(MenuIsOpen)
+            if(menuIsOpen)
             {
                 CloseMenu();
             }
@@ -25,16 +25,16 @@ public class ImplementacoesMenu : MonoBehaviour
 
     public void CloseMenu()
     {
-        ImplementacoesMenuUI.SetActive(false);
+        implementationsMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        MenuIsOpen = false;
+        menuIsOpen = false;
     }
 
     void OpenMenu()
     {
-        ImplementacoesMenuUI.SetActive(true);
+        implementationsMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        MenuIsOpen = true;
+        menuIsOpen = true;
     }
 
     public void Sair()

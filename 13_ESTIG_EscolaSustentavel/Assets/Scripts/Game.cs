@@ -6,6 +6,7 @@ using Database;
 using Database.Model;
 using Mono.Data.Sqlite;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Game : MonoBehaviour
 {
@@ -18,12 +19,43 @@ public class Game : MonoBehaviour
     private int _timepassed = 0;
     public DatabaseManager databaseManager;
 
+    //Lamps
+    public Text energyBeforeLamps;
+    public Text energyAfterLamps;
+    public Text savingsEnergyLamps;
+    public Text savingsPriceLamps;
+    public Text lamp1Quantity;
+    public Text lamp2Quantity;
+    public Text lamp3Quantity;
+    public Text lamp1Price;
+    public Text lamp2Price;
+    public Text lamp3Price;
     private void Start()
     {
         databaseManager = gameObject.AddComponent<DatabaseManager>();
         var timer = new System.Timers.Timer(1000);
         timer.Elapsed += HandleTimerElapsed;
         timer.Enabled = true;
+        
+    }
+    
+    public void LoadLamps()
+    {
+        //Lamps Load
+        Lamp lamp1 = databaseManager.GetLamps(1);
+        lamp1Quantity.text = lamp1.UnitCount.ToString();
+        lamp1Price.text = (lamp1.UnitPrice* lamp1.UnitCount).ToString() + "€";
+        energyBeforeLamps.text = "0 kWh";
+        energyAfterLamps.text = "0 kWh";;
+        savingsEnergyLamps.text = "0 kWh";
+        savingsPriceLamps.text = "0 €" ;
+        Lamp lamp2 = databaseManager.GetLamps(2);
+        lamp2Quantity.text = lamp2.UnitCount.ToString();
+        lamp2Price.text = (lamp2.UnitPrice* lamp1.UnitCount).ToString() + "€";
+        Lamp lamp3 = databaseManager.GetLamps(3);
+        lamp3Quantity.text = lamp3.UnitCount.ToString();
+        lamp3Price.text = (lamp3.UnitPrice* lamp1.UnitCount).ToString() + "€";
+
     }
 
     //*****Botões dos Menus*****//
@@ -35,6 +67,7 @@ public class Game : MonoBehaviour
         _pickedPanels = option;
         Panel panel = databaseManager.GetPanels(_pickedPanels);
         print(panel.Name);
+        
     }
 
     //*****Lampadas*****//
@@ -43,7 +76,12 @@ public class Game : MonoBehaviour
     {
         _pickedLamps = option;
         Lamp lamps = databaseManager.GetLamps(_pickedLamps);
-        print(lamps.Name);
+        energyBeforeLamps.text = (lamps.EnergyBefore).ToString() + " kWh";
+        energyAfterLamps.text = (lamps.EnergyAfter).ToString() + " kWh";;
+        savingsEnergyLamps.text = (lamps.EnergyBefore - lamps.EnergyAfter).ToString() + " kWh";
+        savingsPriceLamps.text = ((lamps.EnergyBefore - lamps.EnergyAfter) * 0.14256).ToString() + " €" ;
+        print((lamps.EnergyBefore).ToString() + " kWh");
+        
     }
 
     //*****Sensores*****//
@@ -172,8 +210,5 @@ public class Game : MonoBehaviour
         // do whatever it is that you need to do on a timer
         _timepassed++;
     }
-
-    private void Update()
-    {
-    }
+    
 }
