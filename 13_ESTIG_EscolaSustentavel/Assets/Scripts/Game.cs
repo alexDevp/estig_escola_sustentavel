@@ -22,6 +22,8 @@ public class Game : MonoBehaviour
     {
         databaseManager = gameObject.AddComponent<DatabaseManager>();
         var timer = new System.Timers.Timer(1000);
+        timer.Elapsed += HandleTimerElapsed;
+        timer.Enabled = true;
     }
 
     //*****Botões dos Menus*****//
@@ -40,7 +42,6 @@ public class Game : MonoBehaviour
     public void OptionLamp(int option)
     {
         _pickedLamps = option;
-        
         Lamp lamps = databaseManager.GetLamps(_pickedLamps);
         print(lamps.Name);
     }
@@ -163,6 +164,7 @@ public class Game : MonoBehaviour
         _pickedLamps = 0;
         _pickedPanels = 0;
         _sensors = 0;
+        _timepassed = 0;
     }
     
     public void HandleTimerElapsed(object sender, ElapsedEventArgs e)
