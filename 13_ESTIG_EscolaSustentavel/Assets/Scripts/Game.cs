@@ -82,10 +82,9 @@ public class Game : MonoBehaviour
         var timer = new System.Timers.Timer(1000);
         timer.Elapsed += HandleTimerElapsed;
         timer.Enabled = true;
-        cashRemaining.text = _budget.ToString() + " €";
-        scoreUntilNow.text = _score.ToString() + " Pts";
-
-
+        cashRemaining.text = _budget + " €";
+        scoreUntilNow.text = _score + " Pts";
+        
     }
     
     public void LoadLamps()
