@@ -474,7 +474,7 @@ namespace Database
                                 Convert.ToInt32(ob["reach"]), Convert.ToInt32(ob["angle"]),
                                 Convert.ToInt32(ob["energy_after"]),
                                 Convert.ToString(ob["info_text"]), Convert.ToString(ob["positive_text"]),
-                                Convert.ToString(ob["negative_path"]), Convert.ToString(ob["image_path"]),
+                                Convert.ToString(ob["negative_text"]), Convert.ToString(ob["image_path"]),
                                 Convert.ToString(ob["arrangement_image_path"]));
                         }
 
@@ -522,11 +522,11 @@ namespace Database
                                 Convert.ToInt32(ob["unit_count"]),
                                 Convert.ToDouble(ob["unit_price"]), Convert.ToInt32(ob["points"]),
                                 Convert.ToInt32(ob["energy_before"]),
-                                Convert.ToInt32(ob["dimension_width"]), Convert.ToInt32(ob["dimension_height"]),
+                                Convert.ToInt32(ob["dimension_w"]), Convert.ToInt32(ob["dimension_h"]),
                                 Convert.ToInt32(ob["power"]),
                                 Convert.ToInt32(ob["energy_after"]), Convert.ToString(ob["info_text"]),
                                 Convert.ToString(ob["positive_text"]),
-                                Convert.ToString(ob["negative_path"]), Convert.ToString(ob["image_path"]),
+                                Convert.ToString(ob["negative_text"]), Convert.ToString(ob["image_path"]),
                                 Convert.ToString(ob["arrangement_image_path"]));
                         }
 

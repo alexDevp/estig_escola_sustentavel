@@ -5,6 +5,7 @@ using System.Timers;
 using Database;
 using Database.Model;
 using Mono.Data.Sqlite;
+using UnityEditor;
 using UnityEngine;
 
 public class Game : MonoBehaviour
@@ -17,13 +18,50 @@ public class Game : MonoBehaviour
     private int _sensors = 0;
     private int _timepassed = 0;
     public DatabaseManager databaseManager;
+    private GameObject _parkingSolarPanels;
+    private GameObject _roofSolarPanels;
+
+    public string Name => _name;
+
+    public int Budget => _budget;
+
+    public int Score => _score;
+
+    public int PickedLamps => _pickedLamps;
+
+    public int PickedPanels => _pickedPanels;
+
+    public int Sensors => _sensors;
+
+    public int Timepassed => _timepassed;
 
     private void Start()
     {
+        SetupPrefabs();
+        HidePrefabs();
+
         databaseManager = gameObject.AddComponent<DatabaseManager>();
         var timer = new System.Timers.Timer(1000);
         timer.Elapsed += HandleTimerElapsed;
         timer.Enabled = true;
+    }
+
+    /**
+     * Faz setup dos prefabs
+     */
+    private void SetupPrefabs()
+    {
+        _parkingSolarPanels = GameObject.FindGameObjectWithTag("ParkingLotSolarPanels");
+        _roofSolarPanels = GameObject.FindGameObjectWithTag("RoofSolarPanels");
+    }
+
+    /**
+     * Esconde todos os prefabs das implementações
+     */
+    private void HidePrefabs()
+    {
+        _parkingSolarPanels.SetActive(false);
+        _roofSolarPanels.SetActive(false);
     }
 
     //*****Botões dos Menus*****//
@@ -61,26 +99,33 @@ public class Game : MonoBehaviour
     //*****Paineis*****//
 
     //Confirma a opção de paineis selecionada e faz aparecer paineis
-    public void ImplementarPainel()
+    public void ImplementPanels(int panelsType)
     {
         if (_pickedPanels == 1)
         {
-            //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
+            _parkingSolarPanels.SetActive(true);
         }
         else if (_pickedPanels == 2)
         {
-            //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
+            _roofSolarPanels.SetActive(true);
         }
         else if (_pickedPanels == 3)
         {
-            //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
+            if (panelsType == 1)
+            {
+                _parkingSolarPanels.SetActive(true);
+            }
+            else
+            {
+                _roofSolarPanels.SetActive(true);
+            }
         }
     }
 
     //*****Lampadas*****//
 
     //Confirma a opção de lampadas selecionada e faz aparecer lampadas
-    public void ImplementarLampadas()
+    public void ImplementLamps()
     {
         if (_pickedLamps == 1)
         {
@@ -99,7 +144,7 @@ public class Game : MonoBehaviour
     //*****Sensores*****//
 
     //Confirma a opção de sensores selecionada e faz aparecer os sensores
-    public void ImplementarSensores()
+    public void ImplementSensors()
     {
         if (_sensors == 1)
         {
@@ -157,7 +202,8 @@ public class Game : MonoBehaviour
         //TODO Mostrar o resumo ao jogador consoante o que escolheu (Ir buscar á BD consoante os IDS)
         //TODO Pedir o Nome do jogador (Meter Input com texto debaixo)
         //TODO Inserir Tudo na BD (Correr Script para adicionar tudo á tabela)
-        Score score = new Score(0, _name, _score, _timepassed, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds(), _pickedLamps, _pickedPanels, _sensors);
+        Score score = new Score(0, _name, _score, _timepassed, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds(),
+            _pickedLamps, _pickedPanels, _sensors);
         databaseManager.InsertScoreIntoDB(score);
         //TODO Voltar para o MENU Principal (Trocar a scene para 0)
         _name = "";
@@ -166,7 +212,12 @@ public class Game : MonoBehaviour
         _sensors = 0;
         _timepassed = 0;
     }
-    
+
+    public void coisas()
+    {
+        print("Hello!");
+    }
+
     public void HandleTimerElapsed(object sender, ElapsedEventArgs e)
     {
         // do whatever it is that you need to do on a timer
