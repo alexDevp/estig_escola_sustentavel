@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Timers;
 using Database;
 using Database.Model;
@@ -36,6 +37,9 @@ public class Game : MonoBehaviour
 
     public int Timepassed => _timepassed;
 
+    public Text scoreUntilNow;
+    public Text cashRemaining;
+    
     //Lamps
     public Text energyBeforeLamps;
     public Text energyAfterLamps;
@@ -47,6 +51,27 @@ public class Game : MonoBehaviour
     public Text lamp1Price;
     public Text lamp2Price;
     public Text lamp3Price;
+    
+    //Panels
+    public Text panel1Quantity;
+    public Text panel2Quantity;
+    public Text panel3Quantity;
+    public Text panel1Price;
+    public Text panel2Price;
+    public Text panel3Price;
+    public Text panelEnergyProduction;
+    public Text panelSavingsMoney;
+    
+    //Sensors
+    public Text sensor1Quantity;
+    public Text sensor2Quantity;
+    public Text sensor1Price;
+    public Text sensor2Price;
+    public Text sensorsEnergyBefore;
+    public Text sensorsEnergyAfter;
+    public Text sensorsSavingsEnergy;
+    public Text sensorsSavingsMoney;
+    
     private void Start()
     {
         SetupPrefabs();
@@ -56,19 +81,22 @@ public class Game : MonoBehaviour
         var timer = new System.Timers.Timer(1000);
         timer.Elapsed += HandleTimerElapsed;
         timer.Enabled = true;
-        
+        cashRemaining.text = _budget.ToString() + " €";
+        scoreUntilNow.text = _score.ToString() + " Pts";
+
+
     }
     
     public void LoadLamps()
     {
         //Lamps Load
-        Lamp lamp1 = databaseManager.GetLamps(1);
-        lamp1Quantity.text = lamp1.UnitCount.ToString();
-        lamp1Price.text = (lamp1.UnitPrice* lamp1.UnitCount).ToString() + "€";
         energyBeforeLamps.text = "0 kWh";
         energyAfterLamps.text = "0 kWh";;
         savingsEnergyLamps.text = "0 kWh";
         savingsPriceLamps.text = "0 €" ;
+        Lamp lamp1 = databaseManager.GetLamps(1);
+        lamp1Quantity.text = lamp1.UnitCount.ToString();
+        lamp1Price.text = (lamp1.UnitPrice * lamp1.UnitCount).ToString() + "€";
         Lamp lamp2 = databaseManager.GetLamps(2);
         lamp2Quantity.text = lamp2.UnitCount.ToString();
         lamp2Price.text = (lamp2.UnitPrice* lamp1.UnitCount).ToString() + "€";
@@ -76,6 +104,35 @@ public class Game : MonoBehaviour
         lamp3Quantity.text = lamp3.UnitCount.ToString();
         lamp3Price.text = (lamp3.UnitPrice* lamp1.UnitCount).ToString() + "€";
 
+    }
+
+    public void LoadPanels()
+    {
+        panelEnergyProduction.text = "0 kWh";
+        panelSavingsMoney.text = "0 €";  
+        Panel panel1 = databaseManager.GetPanels(1);
+        panel1Quantity.text = panel1.UnitCount.ToString();
+        panel1Price.text = (panel1.UnitPrice * panel1.UnitCount).ToString() + "€";
+        Panel panel2 = databaseManager.GetPanels(2);
+        panel2Quantity.text = panel2.UnitCount.ToString();
+        panel2Price.text = (panel2.UnitPrice * panel1.UnitCount).ToString() + "€";
+        Panel panel3 = databaseManager.GetPanels(3);
+        panel3Quantity.text = panel3.UnitCount.ToString();
+        panel3Price.text = (panel3.UnitPrice * panel1.UnitCount).ToString() + "€";
+    }
+
+    public void LoadSensors()
+    {
+        sensorsEnergyBefore.text = "0 kWh";
+        sensorsEnergyAfter.text = "0 kWh";
+        sensorsSavingsEnergy.text = "0 kWh";
+        sensorsSavingsMoney.text = "0 €";
+        Sensor sensor1 = databaseManager.GetSensors(1);
+        sensor1Quantity.text = sensor1.UnitCount.ToString();
+        sensor1Price.text = (sensor1.UnitPrice * sensor1.UnitCount).ToString() + "€";
+        Sensor sensor2 = databaseManager.GetSensors(2);
+        sensor2Quantity.text = sensor2.UnitCount.ToString();
+        sensor2Price.text = (sensor2.UnitPrice * sensor2.UnitCount).ToString() + "€";
     }
 
     /**
@@ -104,6 +161,8 @@ public class Game : MonoBehaviour
     {
         _pickedPanels = option;
         Panel panel = databaseManager.GetPanels(_pickedPanels);
+        panelEnergyProduction.text = (panel.EnergyBefore - panel.EnergyAfter).ToString() + " kWh";
+        panelSavingsMoney.text = ((panel.EnergyBefore - panel.EnergyAfter) * 0.14256).ToString() + " €";
         print(panel.Name);
         
     }
@@ -118,7 +177,7 @@ public class Game : MonoBehaviour
         energyAfterLamps.text = (lamps.EnergyAfter).ToString() + " kWh";;
         savingsEnergyLamps.text = (lamps.EnergyBefore - lamps.EnergyAfter).ToString() + " kWh";
         savingsPriceLamps.text = ((lamps.EnergyBefore - lamps.EnergyAfter) * 0.14256).ToString() + " €" ;
-        print((lamps.EnergyBefore).ToString() + " kWh");
+        print(lamps.Name);
         
     }
 
@@ -128,6 +187,10 @@ public class Game : MonoBehaviour
     {
         _sensors = option;
         Sensor sensor = databaseManager.GetSensors(_sensors);
+        sensorsEnergyBefore.text = sensor.EnergyBefore.ToString() + " kWh";
+        sensorsEnergyAfter.text = sensor.EnergyAfter.ToString() + " kWh";
+        sensorsSavingsEnergy.text = (sensor.EnergyBefore - sensor.EnergyAfter).ToString() + " kWh";
+        sensorsSavingsMoney.text = ((sensor.EnergyBefore - sensor.EnergyAfter) * 0.14256).ToString() + " €";
         print(sensor.Name);
     }
 
