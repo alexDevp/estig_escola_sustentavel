@@ -12,21 +12,21 @@ using UnityEngine.UI;
 
 public class Game : MonoBehaviour
 {
-    private const double _khwprice = 0.14256;
+    private const double Khwprice = 0.14256;
     private string _name = "";
-    private int _budget = 65000;
+    private double _budget = 65000;
     private int _score = 0;
     private int _pickedLamps = 0;
     private int _pickedPanels = 0;
     private int _pickedSensors = 0;
     private int _timepassed = 0;
     public DatabaseManager databaseManager;
-    private GameObject _parkingSolarPanels;
-    private GameObject _roofSolarPanels;
+    public GameObject parkingSolarPanels;
+    public GameObject roofSolarPanels;
 
     public string Name => _name;
 
-    public int Budget => _budget;
+    public double Budget => _budget;
 
     public int Score => _score;
 
@@ -40,7 +40,7 @@ public class Game : MonoBehaviour
 
     public Text scoreUntilNow;
     public Text cashRemaining;
-    
+
     //Lamps
     public Text energyBeforeLamps;
     public Text energyAfterLamps;
@@ -52,7 +52,7 @@ public class Game : MonoBehaviour
     public Text lamp1Price;
     public Text lamp2Price;
     public Text lamp3Price;
-    
+
     //Panels
     public Text panel1Quantity;
     public Text panel2Quantity;
@@ -62,7 +62,9 @@ public class Game : MonoBehaviour
     public Text panel3Price;
     public Text panelEnergyProduction;
     public Text panelSavingsMoney;
-    
+    public GameObject textParkingLot;
+    public GameObject textRoof;
+
     //PickedSensors
     public Text sensor1Quantity;
     public Text sensor2Quantity;
@@ -72,7 +74,7 @@ public class Game : MonoBehaviour
     public Text sensorsEnergyAfter;
     public Text sensorsSavingsEnergy;
     public Text sensorsSavingsMoney;
-    
+
     private void Start()
     {
         SetupPrefabs();
@@ -85,42 +87,43 @@ public class Game : MonoBehaviour
         cashRemaining.text = _budget + " €";
         scoreUntilNow.text = _score + " Pts";
     }
-    
+
     public void LoadLamps()
     {
         //Lamps Load
         energyBeforeLamps.text = "0 kWh";
-        energyAfterLamps.text = "0 kWh";;
+        energyAfterLamps.text = "0 kWh";
+        ;
         savingsEnergyLamps.text = "0 kWh";
-        savingsPriceLamps.text = "0 €" ;
-        
+        savingsPriceLamps.text = "0 €";
+
         Lamp lamp1 = databaseManager.GetLamps(1);
         lamp1Quantity.text = lamp1.UnitCount.ToString();
         lamp1Price.text = Math.Round((lamp1.UnitPrice * lamp1.UnitCount), 2) + "€";
-        
+
         Lamp lamp2 = databaseManager.GetLamps(2);
         lamp2Quantity.text = lamp2.UnitCount.ToString();
-        lamp2Price.text = Math.Round((lamp2.UnitPrice* lamp2.UnitCount), 2) + "€";
-        
+        lamp2Price.text = Math.Round((lamp2.UnitPrice * lamp2.UnitCount), 2) + "€";
+
         Lamp lamp3 = databaseManager.GetLamps(3);
         lamp3Quantity.text = lamp3.UnitCount.ToString();
-        lamp3Price.text = Math.Round((lamp3.UnitPrice* lamp3.UnitCount), 2) + "€";
+        lamp3Price.text = Math.Round((lamp3.UnitPrice * lamp3.UnitCount), 2) + "€";
     }
 
     public void LoadPanels()
     {
         panelEnergyProduction.text = "0 kWh";
-        panelSavingsMoney.text = "0 €";  
+        panelSavingsMoney.text = "0 €";
         Panel panel1 = databaseManager.GetPanels(1);
         panel1Quantity.text = panel1.UnitCount.ToString();
         double totalPanel1 = panel1.UnitPrice * panel1.UnitCount;
         panel1Price.text = Math.Round((totalPanel1), 2) + "€";
-        
+
         Panel panel2 = databaseManager.GetPanels(2);
         panel2Quantity.text = panel2.UnitCount.ToString();
         double totalPanel2 = panel2.UnitPrice * panel2.UnitCount;
         panel2Price.text = Math.Round((totalPanel2), 2) + "€";
-        
+
         Panel panel3 = databaseManager.GetPanels(3);
         panel3Quantity.text = panel3.UnitCount.ToString();
         panel3Price.text = Math.Round((totalPanel1 + totalPanel2), 2) + "€";
@@ -145,8 +148,6 @@ public class Game : MonoBehaviour
      */
     private void SetupPrefabs()
     {
-        _parkingSolarPanels = GameObject.FindGameObjectWithTag("ParkingLotSolarPanels");
-        _roofSolarPanels = GameObject.FindGameObjectWithTag("RoofSolarPanels");
     }
 
     /**
@@ -154,8 +155,10 @@ public class Game : MonoBehaviour
      */
     private void HidePrefabs()
     {
-        _parkingSolarPanels.SetActive(false);
-        _roofSolarPanels.SetActive(false);
+        parkingSolarPanels.SetActive(false);
+        roofSolarPanels.SetActive(false);
+        textRoof.SetActive(false);
+        textParkingLot.SetActive(false);
     }
 
     //*****Botões dos Menus*****//
@@ -167,9 +170,8 @@ public class Game : MonoBehaviour
         _pickedPanels = option;
         Panel panel = databaseManager.GetPanels(_pickedPanels);
         panelEnergyProduction.text = (panel.EnergyBefore - panel.EnergyAfter) + " kWh";
-        panelSavingsMoney.text = Math.Round(((panel.EnergyBefore - panel.EnergyAfter) * _khwprice), 2) + " €";
+        panelSavingsMoney.text = Math.Round(((panel.EnergyBefore - panel.EnergyAfter) * Khwprice), 2) + " €";
         print(panel.Name);
-        
     }
 
     //*****Lampadas*****//
@@ -181,9 +183,8 @@ public class Game : MonoBehaviour
         energyBeforeLamps.text = (lamps.EnergyBefore) + " kWh";
         energyAfterLamps.text = (lamps.EnergyAfter) + " kWh";
         savingsEnergyLamps.text = (lamps.EnergyBefore - lamps.EnergyAfter) + " kWh";
-        savingsPriceLamps.text = Math.Round(((lamps.EnergyBefore - lamps.EnergyAfter) * _khwprice), 2) + " €" ;
+        savingsPriceLamps.text = Math.Round(((lamps.EnergyBefore - lamps.EnergyAfter) * Khwprice), 2) + " €";
         print(lamps.Name);
-        
     }
 
     //*****Sensores*****//
@@ -195,36 +196,56 @@ public class Game : MonoBehaviour
         sensorsEnergyBefore.text = sensor.EnergyBefore + " kWh";
         sensorsEnergyAfter.text = sensor.EnergyAfter + " kWh";
         sensorsSavingsEnergy.text = (sensor.EnergyBefore - sensor.EnergyAfter) + " kWh";
-        sensorsSavingsMoney.text = Math.Round(((sensor.EnergyBefore - sensor.EnergyAfter) * _khwprice), 2) + " €";
+        sensorsSavingsMoney.text = Math.Round(((sensor.EnergyBefore - sensor.EnergyAfter) * Khwprice), 2) + " €";
         print(sensor.Name);
     }
 
-    
+
     //******Confirmar Implementações******//
     /**
      * Confirmar a opção das lâmpadas
      */
     public void ConfirmLamps()
     {
-        
     }
-    
+
     /**
      * Confirmar a opção das painéis
      */
     public void ConfirmPanels()
     {
-        
+        if (_pickedPanels != 0)
+        {
+            Panel panel = databaseManager.GetPanels(_pickedPanels);
+            _budget = _budget - Math.Round(panel.UnitPrice * panel.UnitCount, 2);
+            _score = _score + panel.Points;
+            cashRemaining.text = _budget + " €";
+            scoreUntilNow.text = _score + " Pts";
+        }
+
+
+        if (_pickedPanels == 1)
+        {
+            textParkingLot.SetActive(true);
+        }
+        else if (_pickedPanels == 2)
+        {
+            textRoof.SetActive(true);
+        }
+        else if (_pickedPanels == 3)
+        {
+            textRoof.SetActive(true);
+            textParkingLot.SetActive(true);
+        }
     }
-    
+
     /**
      * Confirmar a opção das sensores
      */
     public void ConfirmSensors()
     {
-        
     }
-    
+
     //******Cancelar Implementações******//
     /**
      * Cancelar a opção das lâmpadas
@@ -233,7 +254,7 @@ public class Game : MonoBehaviour
     {
         _pickedLamps = 0;
     }
-    
+
     /**
      * Cancelar a opção das painéis
      */
@@ -241,7 +262,7 @@ public class Game : MonoBehaviour
     {
         _pickedPanels = 0;
     }
-    
+
     /**
      * Cancelar a opção das sensores
      */
@@ -249,7 +270,7 @@ public class Game : MonoBehaviour
     {
         _pickedSensors = 0;
     }
-    
+
 
     //*****Mostrar Implementações*****//
 
@@ -260,21 +281,21 @@ public class Game : MonoBehaviour
     {
         if (_pickedPanels == 1)
         {
-            _parkingSolarPanels.SetActive(true);
+            parkingSolarPanels.SetActive(true);
         }
         else if (_pickedPanels == 2)
         {
-            _roofSolarPanels.SetActive(true);
+            roofSolarPanels.SetActive(true);
         }
         else if (_pickedPanels == 3)
         {
             if (panelsType == 1)
             {
-                _parkingSolarPanels.SetActive(true);
+                parkingSolarPanels.SetActive(true);
             }
             else
             {
-                _roofSolarPanels.SetActive(true);
+                roofSolarPanels.SetActive(true);
             }
         }
     }
@@ -380,5 +401,4 @@ public class Game : MonoBehaviour
         // do whatever it is that you need to do on a timer
         _timepassed++;
     }
-    
 }
