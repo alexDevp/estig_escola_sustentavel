@@ -180,13 +180,13 @@ namespace Database
 
 
                 // Values for query
-                string lamp1 = "'Lampâdas LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before +
+                string lamp1 = "'Lâmpadas LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before +
                                ", " + energyAfterLamp1 +
                                ", 10, '', '', '', '', ''";
-                string lamp2 = "'Lampâdas LED 20W', " + unitLamp2 + ", " + priceLamp2 +
+                string lamp2 = "'Lâmpadas LED 20W', " + unitLamp2 + ", " + priceLamp2 +
                                ", 500," + energy_before + ", " + energyAfterLamp2 +
                                ", 20, '', '', '', '', ''";
-                string lamp3 = "'Lampâdas LED 50W', " + unitLamp3 +
+                string lamp3 = "'Lâmpadas LED 50W', " + unitLamp3 +
                                ", " + priceLamp3 + ", 1500, " + energy_before + ", " + energyAfterLamp3 +
                                ", 50, '', '', '','', ''";
 
@@ -215,7 +215,7 @@ namespace Database
         }
 
         /**
-         * A method to insert data into the Sensors table
+         * A method to insert data into the PickedSensors table
          */
         private void InsertSensorsIntoDB()
         {
@@ -272,11 +272,11 @@ namespace Database
                 // If the object is null, the insert worked. If not, something failed
                 if (ob == null)
                 {
-                    print("Sensors inserted with success!");
+                    print("PickedSensors inserted with success!");
                 }
                 else
                 {
-                    print("Error while inserting Sensors...");
+                    print("Error while inserting PickedSensors...");
                 }
             }
         }
@@ -313,7 +313,7 @@ namespace Database
                 // Price of each unit of each implementation
                 double pricePanel1 = 48.51;
                 double pricePanel2 = 122.0;
-                double pricePanel3 = pricePanel1 + pricePanel2;
+                double pricePanel3 = ((pricePanel1 * unitPanel1) + (pricePanel2 * unitPanel2)) / unitPanel3;
 
                 // Units sizes
                 int panelw1 = 365;
@@ -438,7 +438,7 @@ namespace Database
         }
 
         /**
-         * Gets rows from Sensors table
+         * Gets rows from PickedSensors table
          */
         public Sensor GetSensors(int id)
         {
