@@ -18,7 +18,7 @@ public class Game : MonoBehaviour
     private int _score = 0;
     private int _pickedLamps = 0;
     private int _pickedPanels = 0;
-    private int _sensors = 0;
+    private int _pickedSensors = 0;
     private int _timepassed = 0;
     public DatabaseManager databaseManager;
     private GameObject _parkingSolarPanels;
@@ -34,7 +34,7 @@ public class Game : MonoBehaviour
 
     public int PickedPanels => _pickedPanels;
 
-    public int Sensors => _sensors;
+    public int PickedSensors => _pickedSensors;
 
     public int Timepassed => _timepassed;
 
@@ -63,7 +63,7 @@ public class Game : MonoBehaviour
     public Text panelEnergyProduction;
     public Text panelSavingsMoney;
     
-    //Sensors
+    //PickedSensors
     public Text sensor1Quantity;
     public Text sensor2Quantity;
     public Text sensor1Price;
@@ -84,7 +84,6 @@ public class Game : MonoBehaviour
         timer.Enabled = true;
         cashRemaining.text = _budget + " €";
         scoreUntilNow.text = _score + " Pts";
-        
     }
     
     public void LoadLamps()
@@ -106,7 +105,6 @@ public class Game : MonoBehaviour
         Lamp lamp3 = databaseManager.GetLamps(3);
         lamp3Quantity.text = lamp3.UnitCount.ToString();
         lamp3Price.text = Math.Round((lamp3.UnitPrice* lamp3.UnitCount), 2) + "€";
-
     }
 
     public void LoadPanels()
@@ -192,8 +190,8 @@ public class Game : MonoBehaviour
     //Seleciona a opção de implementação 1 dos paineis solares
     public void OptionSensors(int option)
     {
-        _sensors = option;
-        Sensor sensor = databaseManager.GetSensors(_sensors);
+        _pickedSensors = option;
+        Sensor sensor = databaseManager.GetSensors(_pickedSensors);
         sensorsEnergyBefore.text = sensor.EnergyBefore + " kWh";
         sensorsEnergyAfter.text = sensor.EnergyAfter + " kWh";
         sensorsSavingsEnergy.text = (sensor.EnergyBefore - sensor.EnergyAfter) + " kWh";
@@ -201,12 +199,63 @@ public class Game : MonoBehaviour
         print(sensor.Name);
     }
 
+    
+    //******Confirmar Implementações******//
+    /**
+     * Confirmar a opção das lâmpadas
+     */
+    public void ConfirmLamps()
+    {
+        
+    }
+    
+    /**
+     * Confirmar a opção das painéis
+     */
+    public void ConfirmPanels()
+    {
+        
+    }
+    
+    /**
+     * Confirmar a opção das sensores
+     */
+    public void ConfirmSensors()
+    {
+        
+    }
+    
+    //******Cancelar Implementações******//
+    /**
+     * Cancelar a opção das lâmpadas
+     */
+    public void CancelLamps()
+    {
+        _pickedLamps = 0;
+    }
+    
+    /**
+     * Cancelar a opção das painéis
+     */
+    public void CancelPanels()
+    {
+        _pickedPanels = 0;
+    }
+    
+    /**
+     * Cancelar a opção das sensores
+     */
+    public void CancelSensors()
+    {
+        _pickedSensors = 0;
+    }
+    
 
-    //*****Confirmar Implementações*****//
+    //*****Mostrar Implementações*****//
 
     //*****Paineis*****//
 
-    //Confirma a opção de paineis selecionada e faz aparecer paineis
+    //Faz aparecer paineis
     public void ImplementPanels(int panelsType)
     {
         if (_pickedPanels == 1)
@@ -232,7 +281,7 @@ public class Game : MonoBehaviour
 
     //*****Lampadas*****//
 
-    //Confirma a opção de lampadas selecionada e faz aparecer lampadas
+    //Faz aparecer lampadas
     public void ImplementLamps()
     {
         if (_pickedLamps == 1)
@@ -251,14 +300,14 @@ public class Game : MonoBehaviour
 
     //*****Sensores*****//
 
-    //Confirma a opção de sensores selecionada e faz aparecer os sensores
+    //Faz aparecer os sensores
     public void ImplementSensors()
     {
-        if (_sensors == 1)
+        if (_pickedSensors == 1)
         {
             //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
         }
-        else if (_sensors == 2)
+        else if (_pickedSensors == 2)
         {
             //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
         }
@@ -273,7 +322,7 @@ public class Game : MonoBehaviour
     {
         //TODO Ao clicar no local para implementar fazer aparecer as texturas do objeto
 
-        if (_pickedPanels != 0 && _pickedLamps != 0 && _sensors != 0)
+        if (_pickedPanels != 0 && _pickedLamps != 0 && _pickedSensors != 0)
         {
             AcabarJogo();
         }
@@ -285,7 +334,7 @@ public class Game : MonoBehaviour
     {
         //TODO Ao clicar no local para implementar fazer aparecer as texturas do objeto
 
-        if (_pickedPanels != 0 && _pickedLamps != 0 && _sensors != 0)
+        if (_pickedPanels != 0 && _pickedLamps != 0 && _pickedSensors != 0)
         {
             AcabarJogo();
         }
@@ -297,7 +346,7 @@ public class Game : MonoBehaviour
     {
         //TODO Ao clicar no local para implementar fazer aparecer as texturas do objeto
 
-        if (_pickedPanels != 0 && _pickedLamps != 0 && _sensors != 0)
+        if (_pickedPanels != 0 && _pickedLamps != 0 && _pickedSensors != 0)
         {
             AcabarJogo();
         }
@@ -311,13 +360,13 @@ public class Game : MonoBehaviour
         //TODO Pedir o Nome do jogador (Meter Input com texto debaixo)
         //TODO Inserir Tudo na BD (Correr Script para adicionar tudo á tabela)
         Score score = new Score(0, _name, _score, _timepassed, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds(),
-            _pickedLamps, _pickedPanels, _sensors);
+            _pickedLamps, _pickedPanels, _pickedSensors);
         databaseManager.InsertScoreIntoDB(score);
         //TODO Voltar para o MENU Principal (Trocar a scene para 0)
         _name = "";
         _pickedLamps = 0;
         _pickedPanels = 0;
-        _sensors = 0;
+        _pickedSensors = 0;
         _timepassed = 0;
     }
 
