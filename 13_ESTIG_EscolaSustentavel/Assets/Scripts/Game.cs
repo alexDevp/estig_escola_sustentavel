@@ -15,6 +15,10 @@ public class Game : MonoBehaviour
     private const double Khwprice = 0.14256;
     private string _name = "";
     private double _budget = 65000;
+    private int _panels = 0;
+    private int _lamps = 0;
+    private int _sensors = 0;
+    private int _half = 0;
     private int _score = 0;
     private int _pickedLamps = 0;
     private int _pickedPanels = 0;
@@ -23,7 +27,12 @@ public class Game : MonoBehaviour
     public DatabaseManager databaseManager;
     public GameObject parkingSolarPanels;
     public GameObject roofSolarPanels;
-
+    public GameObject classroomLamps1;
+    public GameObject classroomLamps2;
+    public GameObject classroomLamps3;
+    public GameObject hallSensors1;
+    public GameObject hallSensors2;
+    
     public string Name => _name;
 
     public double Budget => _budget;
@@ -38,6 +47,7 @@ public class Game : MonoBehaviour
 
     public int Timepassed => _timepassed;
 
+    //General UI
     public Text scoreUntilNow;
     public Text cashRemaining;
 
@@ -52,6 +62,7 @@ public class Game : MonoBehaviour
     public Text lamp1Price;
     public Text lamp2Price;
     public Text lamp3Price;
+    public Text textLamps;
 
     //Panels
     public Text panel1Quantity;
@@ -74,7 +85,11 @@ public class Game : MonoBehaviour
     public Text sensorsEnergyAfter;
     public Text sensorsSavingsEnergy;
     public Text sensorsSavingsMoney;
-
+    public Text textSensors;
+    
+    /**
+     * Função Start do Projeto
+     */
     private void Start()
     {
         SetupPrefabs();
@@ -88,6 +103,9 @@ public class Game : MonoBehaviour
         scoreUntilNow.text = _score + " Pts";
     }
 
+    /**
+     * Carrega os Valores das Opções das Lampadas na UI
+     */
     public void LoadLamps()
     {
         //Lamps Load
@@ -110,6 +128,9 @@ public class Game : MonoBehaviour
         lamp3Price.text = Math.Round((lamp3.UnitPrice * lamp3.UnitCount), 2) + "€";
     }
 
+    /**
+     * Carrega os Valores das Opções dos Paineis Solares na UI
+     */
     public void LoadPanels()
     {
         panelEnergyProduction.text = "0 kWh";
@@ -129,6 +150,9 @@ public class Game : MonoBehaviour
         panel3Price.text = Math.Round((totalPanel1 + totalPanel2), 2) + "€";
     }
 
+    /**
+     * Carrega os Valores das Opções das Sensores na UI
+     */
     public void LoadSensors()
     {
         sensorsEnergyBefore.text = "0 kWh";
@@ -159,6 +183,11 @@ public class Game : MonoBehaviour
         roofSolarPanels.SetActive(false);
         textRoof.SetActive(false);
         textParkingLot.SetActive(false);
+        classroomLamps1.SetActive(false);
+        classroomLamps2.SetActive(false);
+        classroomLamps3.SetActive(false);
+        hallSensors1.SetActive(false);
+        hallSensors2.SetActive(false);
     }
 
     //*****Botões dos Menus*****//
@@ -199,14 +228,26 @@ public class Game : MonoBehaviour
         sensorsSavingsMoney.text = Math.Round(((sensor.EnergyBefore - sensor.EnergyAfter) * Khwprice), 2) + " €";
         print(sensor.Name);
     }
-
-
+    
     //******Confirmar Implementações******//
     /**
      * Confirmar a opção das lâmpadas
      */
     public void ConfirmLamps()
     {
+        if (_pickedLamps != 0)
+        {
+            Lamp lamp = databaseManager.GetLamps(_pickedLamps);
+            _budget = _budget - Math.Round(lamp.UnitPrice * lamp.UnitCount, 2);
+            _score = _score + lamp.Points;
+            cashRemaining.text = _budget + " €";
+            scoreUntilNow.text = _score + " Pts";
+        }
+        
+        if (_pickedLamps == 1 || _pickedLamps == 2 || _pickedLamps == 3)
+        {
+            //textLamps.SetActive(true);
+        }
     }
 
     /**
@@ -222,8 +263,7 @@ public class Game : MonoBehaviour
             cashRemaining.text = _budget + " €";
             scoreUntilNow.text = _score + " Pts";
         }
-
-
+        
         if (_pickedPanels == 1)
         {
             textParkingLot.SetActive(true);
@@ -244,6 +284,19 @@ public class Game : MonoBehaviour
      */
     public void ConfirmSensors()
     {
+        if (_pickedSensors != 0)
+        {
+            Sensor sensor = databaseManager.GetSensors(_pickedSensors);
+            _budget = _budget - Math.Round(sensor.UnitPrice * sensor.UnitCount, 2);
+            _score = _score + sensor.Points;
+            cashRemaining.text = _budget + " €";
+            scoreUntilNow.text = _score + " Pts";
+        }
+
+        if (_pickedSensors == 1 || _pickedSensors == 2)
+        {
+            //textSensors.SetActive(true)
+        }
     }
 
     //******Cancelar Implementações******//
@@ -270,109 +323,100 @@ public class Game : MonoBehaviour
     {
         _pickedSensors = 0;
     }
-
-
+    
     //*****Mostrar Implementações*****//
-
-    //*****Paineis*****//
-
     //Faz aparecer paineis
     public void ImplementPanels(int panelsType)
     {
         if (_pickedPanels == 1)
         {
             parkingSolarPanels.SetActive(true);
+            _panels = 1;
         }
         else if (_pickedPanels == 2)
         {
             roofSolarPanels.SetActive(true);
+            _panels = 1;
         }
         else if (_pickedPanels == 3)
         {
             if (panelsType == 1)
             {
                 parkingSolarPanels.SetActive(true);
+                if (_half == 1)
+                {
+                    _panels = 1;
+                }
+                else
+                {
+                    _half = 1;
+                }
             }
             else
             {
                 roofSolarPanels.SetActive(true);
+                if (_half == 1)
+                {
+                    _panels = 1;
+                }
+                else
+                {
+                    _half = 1;
+                }
+                
             }
         }
+        
+        if (_panels == 1 && _lamps == 1 && _sensors == 1)
+        {
+            AcabarJogo();
+        }
     }
-
-    //*****Lampadas*****//
-
+    
     //Faz aparecer lampadas
     public void ImplementLamps()
     {
         if (_pickedLamps == 1)
         {
-            //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
+            classroomLamps1.SetActive(true);
+            _lamps = 1;
         }
         else if (_pickedLamps == 2)
         {
-            //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
+            classroomLamps2.SetActive(true);
+            _lamps = 1;
         }
         else if (_pickedLamps == 3)
         {
-            //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
+            classroomLamps3.SetActive(true);
+            _lamps = 1;
+        }
+        
+        if (_panels == 1 && _lamps == 1 && _sensors == 1)
+        {
+            AcabarJogo();
         }
     }
-
-    //*****Sensores*****//
-
+    
     //Faz aparecer os sensores
     public void ImplementSensors()
     {
         if (_pickedSensors == 1)
         {
-            //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
+            hallSensors1.SetActive(true);
+            _sensors = 1;
         }
         else if (_pickedSensors == 2)
         {
-            //TODO Fazer aparecer sem texturas o objeto no(s) sitio(s)
+            hallSensors2.SetActive(true);
+            _sensors = 1;
         }
-    }
-
-
-    //*****Terminar Implementação*****//
-
-    //*****Paineis*****//
-    //Constroi os Paineis
-    public void ConstruirPainel()
-    {
-        //TODO Ao clicar no local para implementar fazer aparecer as texturas do objeto
-
-        if (_pickedPanels != 0 && _pickedLamps != 0 && _pickedSensors != 0)
+        
+        if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
             AcabarJogo();
         }
     }
-
-    //*****Lampadas*****//
-    //Constroi as Lampadas
-    public void ConstruirLampadas()
-    {
-        //TODO Ao clicar no local para implementar fazer aparecer as texturas do objeto
-
-        if (_pickedPanels != 0 && _pickedLamps != 0 && _pickedSensors != 0)
-        {
-            AcabarJogo();
-        }
-    }
-
-    //*****Sensores*****//
-    //Constroi as Lampadas
-    public void ConstruirSensores()
-    {
-        //TODO Ao clicar no local para implementar fazer aparecer as texturas do objeto
-
-        if (_pickedPanels != 0 && _pickedLamps != 0 && _pickedSensors != 0)
-        {
-            AcabarJogo();
-        }
-    }
-
 
     //Termina o jogo e pede o nome ao jogador enquanto mostra um resumo do que fez
     public void AcabarJogo()
@@ -389,6 +433,10 @@ public class Game : MonoBehaviour
         _pickedPanels = 0;
         _pickedSensors = 0;
         _timepassed = 0;
+        _panels = 0;
+        _lamps = 0;
+        _sensors = 0;
+        _half = 0;
     }
 
     public void coisas()

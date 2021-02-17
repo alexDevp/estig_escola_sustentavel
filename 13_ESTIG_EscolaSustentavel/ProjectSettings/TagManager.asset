@@ -17,6 +17,8 @@ TagManager:
   - ParkingLotSolarPanels
   - ActivateParkingPanel
   - GroudTeleportLandingPad
+  - ActivateLamps
+  - ActivateSensors
   layers:
   - Default
   - TransparentFX
