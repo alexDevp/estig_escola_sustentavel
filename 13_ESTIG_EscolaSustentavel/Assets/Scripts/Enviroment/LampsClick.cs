@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LampsClick : MonoBehaviour
 {
-    private GameObject _panel;
+    public GameObject lamp;
 
     private Game _game;
     private bool _isGameNotNull;
@@ -13,7 +13,6 @@ public class LampsClick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _panel = GameObject.FindGameObjectWithTag("ActivateLamps");
         _game = GameObject.FindGameObjectWithTag("UiCanvas").GetComponent<Game>();
         _isGameNotNull = _game != null;
     }
@@ -26,7 +25,8 @@ public class LampsClick : MonoBehaviour
 
         if (Physics.Raycast(transform.position, fwd, out hit, 6))
         {
-            if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(_panel.tag))
+            
+            if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(lamp.tag))
             {
                 if (_isGameNotNull)
                 {

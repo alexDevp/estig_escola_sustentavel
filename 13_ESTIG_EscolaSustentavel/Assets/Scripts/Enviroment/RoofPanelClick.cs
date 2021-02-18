@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RoofPanelClick : MonoBehaviour
 {
-    private GameObject _electricalSwitchboard;
+    public GameObject electricalSwitchboard;
 
     private Game _game;
     private bool _isGameNotNull;
@@ -13,7 +13,6 @@ public class RoofPanelClick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _electricalSwitchboard = GameObject.FindGameObjectWithTag("ActivateRoofPanel");
         _game = GameObject.FindGameObjectWithTag("UiCanvas").GetComponent<Game>();
         _isGameNotNull = _game != null;
     }
@@ -26,7 +25,7 @@ public class RoofPanelClick : MonoBehaviour
 
         if (Physics.Raycast(transform.position, fwd, out hit, 3))
         {
-            if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(_electricalSwitchboard.tag))
+            if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(electricalSwitchboard.tag))
             {
                 if (_isGameNotNull)
                 {

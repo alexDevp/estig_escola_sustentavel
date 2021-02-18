@@ -32,6 +32,9 @@ public class Game : MonoBehaviour
     public GameObject classroomLamps3;
     public GameObject hallSensors1;
     public GameObject hallSensors2;
+
+    public GameObject snackBarInstructions;
+    public Text textInstructions;
     
     public string Name => _name;
 
@@ -179,17 +182,43 @@ public class Game : MonoBehaviour
      */
     private void HidePrefabs()
     {
+        // Panels
         parkingSolarPanels.SetActive(false);
         roofSolarPanels.SetActive(false);
         textRoof.SetActive(false);
         textParkingLot.SetActive(false);
+        
+        // Lamps
         textLamps.SetActive(false);
         classroomLamps1.SetActive(false);
         classroomLamps2.SetActive(false);
         classroomLamps3.SetActive(false);
+        
+        // Sensors
+        textSensors.SetActive(false);
         hallSensors1.SetActive(false);
         hallSensors2.SetActive(false);
+        
+        //Snackbar
+        snackBarInstructions.SetActive(false);
 
+    }
+
+    /**
+     * Shoes the info snackbar
+     */
+    private void ShowSnackbar(string content)
+    {
+        textInstructions.text = content;
+        snackBarInstructions.SetActive(true);
+    }
+
+    /**
+     * Hides the info snackbar
+     */
+    private void HideSnackbar()
+    {
+        snackBarInstructions.SetActive(false);
     }
 
     //*****Botões dos Menus*****//
@@ -244,6 +273,8 @@ public class Game : MonoBehaviour
             _score = _score + lamp.Points;
             cashRemaining.text = _budget + " €";
             scoreUntilNow.text = _score + " Pts";
+            GenericInfo genericInfo = databaseManager.GetGenericInfo(3);
+            ShowSnackbar(genericInfo.Content);
         }
         
         if (_pickedLamps == 1 || _pickedLamps == 2 || _pickedLamps == 3)
@@ -264,18 +295,25 @@ public class Game : MonoBehaviour
             _score = _score + panel.Points;
             cashRemaining.text = _budget + " €";
             scoreUntilNow.text = _score + " Pts";
+            
         }
         
         if (_pickedPanels == 1)
         {
+            GenericInfo genericInfo = databaseManager.GetGenericInfo(2);
+            ShowSnackbar(genericInfo.Content);
             textParkingLot.SetActive(true);
         }
         else if (_pickedPanels == 2)
         {
+            GenericInfo genericInfo = databaseManager.GetGenericInfo(1);
+            ShowSnackbar(genericInfo.Content);
             textRoof.SetActive(true);
         }
         else if (_pickedPanels == 3)
         {
+            GenericInfo genericInfo = databaseManager.GetGenericInfo(2);
+            ShowSnackbar(genericInfo.Content);
             textRoof.SetActive(true);
             textParkingLot.SetActive(true);
         }
@@ -288,17 +326,16 @@ public class Game : MonoBehaviour
     {
         if (_pickedSensors != 0)
         {
+            GenericInfo genericInfo = databaseManager.GetGenericInfo(4);
+            ShowSnackbar(genericInfo.Content);
+            textSensors.SetActive(true);
             Sensor sensor = databaseManager.GetSensors(_pickedSensors);
             _budget = _budget - Math.Round(sensor.UnitPrice * sensor.UnitCount, 2);
             _score = _score + sensor.Points;
             cashRemaining.text = _budget + " €";
             scoreUntilNow.text = _score + " Pts";
         }
-
-        if (_pickedSensors == 1 || _pickedSensors == 2)
-        {
-            //textSensors.SetActive(true)
-        }
+        
     }
 
     //******Cancelar Implementações******//
@@ -332,18 +369,25 @@ public class Game : MonoBehaviour
     {
         if (_pickedPanels == 1)
         {
+            textParkingLot.SetActive(false);
             parkingSolarPanels.SetActive(true);
             _panels = 1;
+            HideSnackbar();
         }
         else if (_pickedPanels == 2)
         {
+            textRoof.SetActive(false);
             roofSolarPanels.SetActive(true);
             _panels = 1;
+            HideSnackbar();
         }
         else if (_pickedPanels == 3)
         {
             if (panelsType == 1)
             {
+                GenericInfo genericInfo = databaseManager.GetGenericInfo(1);
+                ShowSnackbar(genericInfo.Content);
+                textParkingLot.SetActive(false);
                 parkingSolarPanels.SetActive(true);
                 if (_half == 1)
                 {
@@ -356,6 +400,9 @@ public class Game : MonoBehaviour
             }
             else
             {
+                GenericInfo genericInfo = databaseManager.GetGenericInfo(2);
+                ShowSnackbar(genericInfo.Content);
+                textRoof.SetActive(false);
                 roofSolarPanels.SetActive(true);
                 if (_half == 1)
                 {
@@ -367,7 +414,13 @@ public class Game : MonoBehaviour
                 }
                 
             }
+
+            if (_panels == 1 && _half == 1)
+            {
+                HideSnackbar();
+            }
         }
+        
         
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
@@ -378,6 +431,7 @@ public class Game : MonoBehaviour
     //Faz aparecer lampadas
     public void ImplementLamps()
     {
+        textLamps.SetActive(false);
         if (_pickedLamps == 1)
         {
             classroomLamps1.SetActive(true);
@@ -393,6 +447,7 @@ public class Game : MonoBehaviour
             classroomLamps3.SetActive(true);
             _lamps = 1;
         }
+        HideSnackbar();
         
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
@@ -403,6 +458,7 @@ public class Game : MonoBehaviour
     //Faz aparecer os sensores
     public void ImplementSensors()
     {
+        textSensors.SetActive(false);
         if (_pickedSensors == 1)
         {
             hallSensors1.SetActive(true);
@@ -413,6 +469,7 @@ public class Game : MonoBehaviour
             hallSensors2.SetActive(true);
             _sensors = 1;
         }
+        HideSnackbar();
         
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {

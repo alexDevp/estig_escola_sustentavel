@@ -120,13 +120,13 @@ namespace Database
                 OpenConnection();
                 DatabaseCommand = DatabaseConnection.CreateCommand();
 
-                // Checks if there is any panels rows in DB. If not, populates the lamps table
+                // Checks if there is any lamps rows in DB. If not, populates the lamps table
                 if (GetLamps(0) == null)
                 {
                     InsertLampsIntoDB();
                 }
 
-                // Checks if there is any panels rows in DB. If not, populates the sensors table
+                // Checks if there is any sensors rows in DB. If not, populates the sensors table
                 if (GetSensors(0) == null)
                 {
                     InsertSensorsIntoDB();
@@ -137,6 +137,12 @@ namespace Database
                 {
                     InsertPanelsIntoDB();
                 }
+                
+                // Checks if there is any GenericInfo rows in DB. If not, populates the GenericInfo table
+                if (GetGenericInfo(0) == null)
+                {
+                    InsertGenericInfoIntoDB();
+                }
 
 
                 // Closes DB connection
@@ -144,6 +150,41 @@ namespace Database
             }
         }
 
+        private void InsertGenericInfoIntoDB()
+        {
+            using (DatabaseConnection)
+            {
+                // Open DB Connection
+                OpenConnection();
+                DatabaseCommand = DatabaseConnection.CreateCommand();
+
+                string path_to_panels_roof = "'Path To Implementation', 'Dirija-se para a pequena casa branca situada no exterior da ESTIG e vá para o telhado. Procure por uma caixa azul e siga as instruções.'";
+                string path_to_panels_parking = "'Path To Implementation', 'Dirija-se para o exterior da ESTIG e vá para o parque de estacionamento. Procure por uma caixa azul e siga as instruções.'";
+                
+                string path_to_panels_lamps = "'Path To Implementation', 'Dirija-se para dentro da ESTIG e vá para a sala L9. Siga as instruções.'";
+                
+                string path_to_panels_sensors = "'Path To Implementation', 'Dirija-se dentro da ESTIG e procure por instruções no corredor do bar e da sala H2O.'";
+
+                string insert = string.Format("INSERT INTO generic_info(info_type, content) VALUES ({0}),({1}),({2}), ({3});", path_to_panels_roof, path_to_panels_parking, path_to_panels_lamps, path_to_panels_sensors);
+
+                DatabaseCommand.CommandText = insert;
+                object ob = DatabaseCommand.ExecuteScalar();
+
+                // Closes DB connection
+                CloseConnection();
+
+                // If the object is null, the insert worked. If not, something failed
+                if (ob == null)
+                {
+                    print("Generic Infos inserted with success!");
+                }
+                else
+                {
+                    print("Error while inserting generic infos...");
+                }
+            }
+        }
+        
         /**
          * A method to insert data into the lamps table
          */
@@ -192,8 +233,7 @@ namespace Database
 
                 // Query to insert in DB
                 string insert =
-                    "INSERT INTO lamps(name, unit_count, unit_price, points, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES(" +
-                    lamp1 + "), (" + lamp2 + "), (" + lamp3 + ");";
+                    string.Format("INSERT INTO lamps(name, unit_count, unit_price, points, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});", lamp1, lamp2, lamp3);
 
                 // Executes the insert
                 DatabaseCommand.CommandText = insert;
@@ -259,8 +299,7 @@ namespace Database
 
                 // Query to insert in DB
                 string insert =
-                    "INSERT INTO sensors(name, unit_count, unit_price, reach, angle, points, energy_before, energy_after, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES(" +
-                    sensor1 + "), (" + sensor2 + ");";
+                    string.Format("INSERT INTO sensors(name, unit_count, unit_price, reach, angle, points, energy_before, energy_after, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1});", sensor1, sensor2);
 
                 // Executes the insert
                 DatabaseCommand.CommandText = insert;
@@ -340,8 +379,7 @@ namespace Database
 
                 // Query to insert in DB
                 string insert =
-                    "INSERT INTO panels(name, unit_count, unit_price, points, dimension_w, dimension_h, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES(" +
-                    panel1 + "), (" + panel2 + "), (" + panel3 + ");";
+                    string.Format("INSERT INTO panels(name, unit_count, unit_price, points, dimension_w, dimension_h, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});", panel1, panel2, panel3);
 
                 // Executes the insert
                 DatabaseCommand.CommandText = insert;
@@ -387,6 +425,48 @@ namespace Database
             }
         }
 
+        /**
+         * Gets rows from GenericInfo table
+         */
+        public GenericInfo GetGenericInfo(int id)
+        {
+            using (DatabaseConnection)
+            {
+                // Open DB Connection
+                OpenConnection();
+                string queryCheckIfExistsGenericInfo;
+
+                if (id == 0)
+                {
+                    queryCheckIfExistsGenericInfo = "SELECT * FROM generic_info;";
+                }
+                else
+                {
+                    queryCheckIfExistsGenericInfo = "SELECT * FROM generic_info WHERE id= " + id + ";";
+                }
+
+                using (DatabaseCommand = DatabaseConnection.CreateCommand())
+                {
+                    DatabaseCommand.CommandText = queryCheckIfExistsGenericInfo;
+
+                    using (SqliteDataReader ob = DatabaseCommand.ExecuteReader())
+                    {
+                        GenericInfo genericInfo = null;
+
+                        while (ob.Read() && ob.HasRows)
+                        {
+                            genericInfo = new GenericInfo(Convert.ToInt32(ob["id"]), Convert.ToString(ob["info_type"]),
+                                Convert.ToString(ob["content"]));
+                        }
+
+                        // Closes DB connection
+                        CloseConnection();
+
+                        return genericInfo;
+                    }
+                }
+            }
+        }
 
         /**
          * Gets rows from Lamps table

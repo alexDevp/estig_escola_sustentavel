@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SensorsClick : MonoBehaviour
 {
-    private GameObject _panel;
+    public GameObject sensorWall;
 
     private Game _game;
     private bool _isGameNotNull;
@@ -13,7 +13,6 @@ public class SensorsClick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _panel = GameObject.FindGameObjectWithTag("ActivateSensors");
         _game = GameObject.FindGameObjectWithTag("UiCanvas").GetComponent<Game>();
         _isGameNotNull = _game != null;
     }
@@ -26,7 +25,7 @@ public class SensorsClick : MonoBehaviour
 
         if (Physics.Raycast(transform.position, fwd, out hit, 3))
         {
-            if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(_panel.tag))
+            if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(sensorWall.tag))
             {
                 if (_isGameNotNull)
                 {
