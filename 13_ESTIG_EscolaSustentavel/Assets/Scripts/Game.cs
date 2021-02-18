@@ -62,7 +62,7 @@ public class Game : MonoBehaviour
     public Text lamp1Price;
     public Text lamp2Price;
     public Text lamp3Price;
-    public Text textLamps;
+    public GameObject textLamps;
 
     //Panels
     public Text panel1Quantity;
@@ -85,8 +85,8 @@ public class Game : MonoBehaviour
     public Text sensorsEnergyAfter;
     public Text sensorsSavingsEnergy;
     public Text sensorsSavingsMoney;
-    public Text textSensors;
-    
+    public GameObject textSensors;
+
     /**
      * Função Start do Projeto
      */
@@ -183,11 +183,13 @@ public class Game : MonoBehaviour
         roofSolarPanels.SetActive(false);
         textRoof.SetActive(false);
         textParkingLot.SetActive(false);
+        textLamps.SetActive(false);
         classroomLamps1.SetActive(false);
         classroomLamps2.SetActive(false);
         classroomLamps3.SetActive(false);
         hallSensors1.SetActive(false);
         hallSensors2.SetActive(false);
+
     }
 
     //*****Botões dos Menus*****//
@@ -246,7 +248,7 @@ public class Game : MonoBehaviour
         
         if (_pickedLamps == 1 || _pickedLamps == 2 || _pickedLamps == 3)
         {
-            //textLamps.SetActive(true);
+            textLamps.SetActive(true);
         }
     }
 
