@@ -165,7 +165,11 @@ namespace Database
                 
                 string path_to_panels_sensors = "'Path To Implementation', 'Dirija-se dentro da ESTIG e procure por instruções no corredor do bar e da sala H2O.'";
 
-                string insert = string.Format("INSERT INTO generic_info(info_type, content) VALUES ({0}),({1}),({2}), ({3});", path_to_panels_roof, path_to_panels_parking, path_to_panels_lamps, path_to_panels_sensors);
+                string implementation_completed = "'Implementation Completed', 'Solução implementada com sucesso!'";
+
+                string game_finished = "'Game Finished', 'Todos as soluções foram implementadas com sucesso, Dirija-se à placa da ESTIG e clique no botão para terminar o jogo.'";
+
+                string insert = string.Format("INSERT INTO generic_info(info_type, content) VALUES ({0}), ({1}), ({2}), ({3}), ({4}), ({5});", path_to_panels_roof, path_to_panels_parking, path_to_panels_lamps, path_to_panels_sensors, implementation_completed, game_finished);
 
                 DatabaseCommand.CommandText = insert;
                 object ob = DatabaseCommand.ExecuteScalar();
