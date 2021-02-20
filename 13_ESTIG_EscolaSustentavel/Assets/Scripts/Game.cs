@@ -53,6 +53,7 @@ public class Game : MonoBehaviour
     //General UI
     public Text scoreUntilNow;
     public Text cashRemaining;
+    public GenericInfo completedMessage;
 
     //Lamps
     public Text energyBeforeLamps;
@@ -104,7 +105,7 @@ public class Game : MonoBehaviour
         timer.Enabled = true;
         cashRemaining.text = _budget + " €";
         scoreUntilNow.text = _score + " Pts";
-    }
+}
 
     /**
      * Carrega os Valores das Opções das Lampadas na UI
@@ -219,6 +220,34 @@ public class Game : MonoBehaviour
     private void HideSnackbar()
     {
         snackBarInstructions.SetActive(false);
+    }
+
+    /**
+     * Show Implementation Completed snackbar
+     */
+    private IEnumerator ShowCompleted()
+    {
+        if (_panels == 1 && _lamps == 1 && _sensors == 1)
+        {
+            ShowEndSnack();
+        }
+        else
+        {
+            completedMessage = databaseManager.GetGenericInfo(5);
+            ShowSnackbar(completedMessage.Content);
+            yield return new WaitForSeconds(5);
+            HideSnackbar();
+        }
+    }
+
+    /**
+     * Show End Game Snackbar
+     */
+
+    private void ShowEndSnack()
+    {
+        GenericInfo genericInfo = databaseManager.GetGenericInfo(6);
+        ShowSnackbar(genericInfo.Content);
     }
 
     //*****Botões dos Menus*****//
@@ -373,6 +402,7 @@ public class Game : MonoBehaviour
             parkingSolarPanels.SetActive(true);
             _panels = 1;
             HideSnackbar();
+            StartCoroutine(ShowCompleted());
         }
         else if (_pickedPanels == 2)
         {
@@ -380,6 +410,7 @@ public class Game : MonoBehaviour
             roofSolarPanels.SetActive(true);
             _panels = 1;
             HideSnackbar();
+            StartCoroutine(ShowCompleted());
         }
         else if (_pickedPanels == 3)
         {
@@ -418,13 +449,14 @@ public class Game : MonoBehaviour
             if (_panels == 1 && _half == 1)
             {
                 HideSnackbar();
+                StartCoroutine(ShowCompleted());
             }
         }
         
         
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
-            AcabarJogo();
+            ShowEndSnack();
         }
     }
     
@@ -448,10 +480,11 @@ public class Game : MonoBehaviour
             _lamps = 1;
         }
         HideSnackbar();
-        
+        StartCoroutine(ShowCompleted());
+
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
-            AcabarJogo();
+            ShowEndSnack();
         }
     }
     
@@ -470,16 +503,18 @@ public class Game : MonoBehaviour
             _sensors = 1;
         }
         HideSnackbar();
-        
+        StartCoroutine(ShowCompleted());
+
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
-            AcabarJogo();
+            ShowEndSnack();
         }
     }
 
     //Termina o jogo e pede o nome ao jogador enquanto mostra um resumo do que fez
     public void AcabarJogo()
     {
+
         //TODO Mostrar o resumo ao jogador consoante o que escolheu (Ir buscar á BD consoante os IDS)
         //TODO Pedir o Nome do jogador (Meter Input com texto debaixo)
         //TODO Inserir Tudo na BD (Correr Script para adicionar tudo á tabela)
