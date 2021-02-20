@@ -419,7 +419,7 @@ namespace Database
                     // Query to insert in DB
                     string insert =
                         string.Format(
-                            "INSERT INTO scores(username, score, timepassed, created_at, lamp_id, panels_id, sensors_id) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6})",
+                            "INSERT INTO scores(username, score, timepassed, created_at, lamp_id, panels_id, sensors_id) VALUES({0}), ({1}), ({2}), ({3}), ({4}), ({5}), ({6});",
                             score.Username, score.ScoreValue, score.Timepassed, score.CreatedAt, score.LampId,
                             score.PanelsId, score.SensorsId);
                     DatabaseCommand.CommandText = insert;
