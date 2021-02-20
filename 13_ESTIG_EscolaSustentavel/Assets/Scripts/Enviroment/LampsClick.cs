@@ -9,6 +9,7 @@ public class LampsClick : MonoBehaviour
 
     private Game _game;
     private bool _isGameNotNull;
+    private bool didImplement = false;
     
     // Start is called before the first frame update
     void Start()
@@ -28,9 +29,10 @@ public class LampsClick : MonoBehaviour
             
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(lamp.tag))
             {
-                if (_isGameNotNull)
+                if (_isGameNotNull && !didImplement)
                 {
                     _game.ImplementLamps();
+                    didImplement = true;
                 }
             }
         }

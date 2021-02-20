@@ -2,34 +2,29 @@
 using System.Collections.Generic;
 using Database;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class LoadImages : MonoBehaviour
 {
-    private DatabaseManager _databaseManager;
-
-    // Start is called before the first frame update
-    void Start()
+    /**
+     * Loads an image from a path into a rawImage game object
+     */
+    public void LoadImageFromPathIntoRawImage(string path, RawImage rawImage)
     {
-        _databaseManager = GameObject.FindGameObjectWithTag("UiCanvas").GetComponent<Game>().databaseManager;
+        Texture2D myimage = Resources.Load<Texture2D>(path);
+        Color currColor = rawImage.color;
+        currColor.a = 1f;
+        rawImage.color = currColor;
+        rawImage.texture = myimage;
     }
 
-    private void LoadImagesPanels()
+    public void UnloadImage(RawImage rawImage)
     {
-        
-    }
-    
-    private void LoadImagesLamps()
-    {
-        
-    }
-    
-    private void LoadImagesSensors()
-    {
-        
+        Color currColor = rawImage.color;
+        currColor.a = 0.15f;
+        rawImage.color = currColor;
+        rawImage.texture = null;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
 }

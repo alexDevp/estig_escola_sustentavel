@@ -9,6 +9,7 @@ public class RoofPanelClick : MonoBehaviour
 
     private Game _game;
     private bool _isGameNotNull;
+    private bool _didImplement = false;
     
     // Start is called before the first frame update
     void Start()
@@ -27,15 +28,13 @@ public class RoofPanelClick : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(electricalSwitchboard.tag))
             {
-                if (_isGameNotNull)
+                if (_isGameNotNull && !_didImplement)
                 {
                     _game.ImplementPanels(2);
+                    _didImplement = true;
                 }
             }
         }
     }
 
-    private void FixedUpdate()
-    {
-    }
 }

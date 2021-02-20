@@ -9,6 +9,7 @@ public class SensorsClick : MonoBehaviour
 
     private Game _game;
     private bool _isGameNotNull;
+    private bool _didImplement = false;
     
     // Start is called before the first frame update
     void Start()
@@ -27,9 +28,10 @@ public class SensorsClick : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(sensorWall.tag))
             {
-                if (_isGameNotNull)
+                if (_isGameNotNull && !_didImplement)
                 {
                     _game.ImplementSensors();
+                    _didImplement = true;
                 }
             }
         }

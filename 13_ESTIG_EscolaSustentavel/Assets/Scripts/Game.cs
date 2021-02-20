@@ -24,6 +24,7 @@ public class Game : MonoBehaviour
     private int _pickedPanels = 0;
     private int _pickedSensors = 0;
     private int _timepassed = 0;
+    private LoadImages _loadImages;
     public DatabaseManager databaseManager;
     public GameObject parkingSolarPanels;
     public GameObject roofSolarPanels;
@@ -66,6 +67,10 @@ public class Game : MonoBehaviour
     public Text lamp1Price;
     public Text lamp2Price;
     public Text lamp3Price;
+    public RawImage imageLamps1;
+    public RawImage imageLamps2;
+    public RawImage imageLamps3;
+    public RawImage imageLampsPlacement;
     public GameObject textLamps;
 
     //Panels
@@ -77,6 +82,10 @@ public class Game : MonoBehaviour
     public Text panel3Price;
     public Text panelEnergyProduction;
     public Text panelSavingsMoney;
+    public RawImage imagePanels1;
+    public RawImage imagePanels2;
+    public RawImage imagePanels3;
+    public RawImage imagePanelsPlacement;
     public GameObject textParkingLot;
     public GameObject textRoof;
 
@@ -89,6 +98,9 @@ public class Game : MonoBehaviour
     public Text sensorsEnergyAfter;
     public Text sensorsSavingsEnergy;
     public Text sensorsSavingsMoney;
+    public RawImage imageSensors1;
+    public RawImage imageSensors2;
+    public RawImage imageSensorsPlacement;
     public GameObject textSensors;
 
     /**
@@ -100,6 +112,7 @@ public class Game : MonoBehaviour
         HidePrefabs();
 
         databaseManager = gameObject.AddComponent<DatabaseManager>();
+        _loadImages = gameObject.AddComponent<LoadImages>();
         var timer = new System.Timers.Timer(1000);
         timer.Elapsed += HandleTimerElapsed;
         timer.Enabled = true;
@@ -130,6 +143,10 @@ public class Game : MonoBehaviour
         Lamp lamp3 = databaseManager.GetLamps(3);
         lamp3Quantity.text = lamp3.UnitCount.ToString();
         lamp3Price.text = Math.Round((lamp3.UnitPrice * lamp3.UnitCount), 2) + "€";
+        
+        _loadImages.LoadImageFromPathIntoRawImage(lamp1.ImagePath, imageLamps1);
+        _loadImages.LoadImageFromPathIntoRawImage(lamp2.ImagePath, imageLamps2);
+        _loadImages.LoadImageFromPathIntoRawImage(lamp3.ImagePath, imageLamps3);
     }
 
     /**
@@ -152,6 +169,10 @@ public class Game : MonoBehaviour
         Panel panel3 = databaseManager.GetPanels(3);
         panel3Quantity.text = panel3.UnitCount.ToString();
         panel3Price.text = Math.Round((totalPanel1 + totalPanel2), 2) + "€";
+        
+        _loadImages.LoadImageFromPathIntoRawImage(panel1.ImagePath, imagePanels1);
+        _loadImages.LoadImageFromPathIntoRawImage(panel2.ImagePath, imagePanels2);
+        _loadImages.LoadImageFromPathIntoRawImage(panel3.ImagePath, imagePanels3);
     }
 
     /**
@@ -169,6 +190,9 @@ public class Game : MonoBehaviour
         Sensor sensor2 = databaseManager.GetSensors(2);
         sensor2Quantity.text = sensor2.UnitCount.ToString();
         sensor2Price.text = Math.Round((sensor2.UnitPrice * sensor2.UnitCount), 2) + "€";
+        
+        _loadImages.LoadImageFromPathIntoRawImage(sensor1.ImagePath, imageSensors1);
+        _loadImages.LoadImageFromPathIntoRawImage(sensor2.ImagePath, imageSensors2);
     }
 
     /**
@@ -261,6 +285,8 @@ public class Game : MonoBehaviour
         panelEnergyProduction.text = (panel.EnergyBefore - panel.EnergyAfter) + " kWh";
         panelSavingsMoney.text = Math.Round(((panel.EnergyBefore - panel.EnergyAfter) * Khwprice), 2) + " €";
         print(panel.Name);
+        
+        _loadImages.LoadImageFromPathIntoRawImage(panel.ArrangementImagePath, imagePanelsPlacement);
     }
 
     //*****Lampadas*****//
@@ -274,6 +300,8 @@ public class Game : MonoBehaviour
         savingsEnergyLamps.text = (lamps.EnergyBefore - lamps.EnergyAfter) + " kWh";
         savingsPriceLamps.text = Math.Round(((lamps.EnergyBefore - lamps.EnergyAfter) * Khwprice), 2) + " €";
         print(lamps.Name);
+        
+        _loadImages.LoadImageFromPathIntoRawImage(lamps.ArrangementImagePath, imageLampsPlacement);
     }
 
     //*****Sensores*****//
@@ -287,6 +315,8 @@ public class Game : MonoBehaviour
         sensorsSavingsEnergy.text = (sensor.EnergyBefore - sensor.EnergyAfter) + " kWh";
         sensorsSavingsMoney.text = Math.Round(((sensor.EnergyBefore - sensor.EnergyAfter) * Khwprice), 2) + " €";
         print(sensor.Name);
+        
+        _loadImages.LoadImageFromPathIntoRawImage(sensor.ArrangementImagePath, imageSensorsPlacement);
     }
     
     //******Confirmar Implementações******//
@@ -374,6 +404,7 @@ public class Game : MonoBehaviour
     public void CancelLamps()
     {
         _pickedLamps = 0;
+        _loadImages.UnloadImage(imageLampsPlacement);
     }
 
     /**
@@ -382,6 +413,7 @@ public class Game : MonoBehaviour
     public void CancelPanels()
     {
         _pickedPanels = 0;
+        _loadImages.UnloadImage(imagePanelsPlacement);
     }
 
     /**
@@ -390,13 +422,14 @@ public class Game : MonoBehaviour
     public void CancelSensors()
     {
         _pickedSensors = 0;
+        _loadImages.UnloadImage(imageSensorsPlacement);
     }
     
     //*****Mostrar Implementações*****//
     //Faz aparecer paineis
     public void ImplementPanels(int panelsType)
     {
-        if (_pickedPanels == 1)
+        if (_pickedPanels == 1 && _panels != 1)
         {
             textParkingLot.SetActive(false);
             parkingSolarPanels.SetActive(true);
@@ -404,7 +437,7 @@ public class Game : MonoBehaviour
             HideSnackbar();
             StartCoroutine(ShowCompleted());
         }
-        else if (_pickedPanels == 2)
+        else if (_pickedPanels == 2 && _panels != 1)
         {
             textRoof.SetActive(false);
             roofSolarPanels.SetActive(true);
@@ -464,24 +497,24 @@ public class Game : MonoBehaviour
     public void ImplementLamps()
     {
         textLamps.SetActive(false);
-        if (_pickedLamps == 1)
+        if (_pickedLamps == 1 && _lamps != 1)
         {
             classroomLamps1.SetActive(true);
             _lamps = 1;
         }
-        else if (_pickedLamps == 2)
+        else if (_pickedLamps == 2 && _lamps != 1)
         {
             classroomLamps2.SetActive(true);
             _lamps = 1;
         }
-        else if (_pickedLamps == 3)
+        else if (_pickedLamps == 3 && _lamps != 1)
         {
             classroomLamps3.SetActive(true);
             _lamps = 1;
         }
         HideSnackbar();
         StartCoroutine(ShowCompleted());
-
+        
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
             ShowEndSnack();
