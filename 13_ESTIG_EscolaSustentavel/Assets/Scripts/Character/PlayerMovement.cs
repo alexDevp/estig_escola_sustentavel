@@ -17,9 +17,21 @@ public class PlayerMovement : MonoBehaviour {
     Vector3 fallVelocity;
     Vector3 move;
 
+    private FootstepSound player_Footsteps;
+    private float walk_volume_Min = 0.1f;
+    private float walk_volume_Max = 1f;
+    private float walk_Step_Distance = 0.3f;
+
     // Start is called before the first frame update
     void Start() {
-        
+        player_Footsteps.volume_Min = walk_volume_Min;
+        player_Footsteps.volume_Max = walk_volume_Max;
+        player_Footsteps.step_Distance = walk_Step_Distance;
+    }
+
+    void Awake()
+    {
+        player_Footsteps = GetComponentInChildren<FootstepSound>();
     }
 
     // Update is called once per frame
