@@ -55,6 +55,7 @@ public class Game : MonoBehaviour
     public Text scoreUntilNow;
     public Text cashRemaining;
     public GenericInfo completedMessage;
+    public GameObject button;
 
     //Lamps
     public Text energyBeforeLamps;
@@ -118,7 +119,7 @@ public class Game : MonoBehaviour
         timer.Enabled = true;
         cashRemaining.text = _budget + " €";
         scoreUntilNow.text = _score + " Pts";
-}
+    }
 
     /**
      * Carrega os Valores das Opções das Lampadas na UI
@@ -227,6 +228,9 @@ public class Game : MonoBehaviour
         //Snackbar
         snackBarInstructions.SetActive(false);
 
+        //Button
+        button.SetActive(false);
+
     }
 
     /**
@@ -265,11 +269,11 @@ public class Game : MonoBehaviour
     }
 
     /**
-     * Show End Game Snackbar
+     * Show End Game Snackbar and enable the Button
      */
-
     private void ShowEndSnack()
     {
+        button.SetActive(true);
         GenericInfo genericInfo = databaseManager.GetGenericInfo(6);
         ShowSnackbar(genericInfo.Content);
     }
