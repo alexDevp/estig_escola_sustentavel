@@ -172,7 +172,9 @@ namespace Database
 
                 string game_finished = "'Game Finished', 'Todos as soluções foram implementadas com sucesso, Dirija-se à placa da ESTIG e clique no botão para terminar o jogo.'";
 
-                string insert = string.Format("INSERT INTO generic_info(info_type, content) VALUES ({0}), ({1}), ({2}), ({3}), ({4}), ({5});", path_to_panels_roof, path_to_panels_parking, path_to_panels_lamps, path_to_panels_sensors, implementation_completed, game_finished);
+                string game_objective = "'Game Objective','O objetivo deste jogo é fazer implementações Ecológicas no Edifício da ESTIG. Para fazer estas implementações abre-se o menu de objetivos (Esc) onde estão todas as implementações para fazer. Para cada implementação tem de ser escolhida e implementada uma opção! Quando todas as implementações estiverem concluídas dá-se o fim do jogo! '";
+
+                string insert = string.Format("INSERT INTO generic_info(info_type, content) VALUES ({0}), ({1}), ({2}), ({3}), ({4}), ({5}), ({6});", path_to_panels_roof, path_to_panels_parking, path_to_panels_lamps, path_to_panels_sensors, implementation_completed, game_finished, game_objective);
 
                 DatabaseCommand.CommandText = insert;
                 object ob = DatabaseCommand.ExecuteScalar();
@@ -227,13 +229,13 @@ namespace Database
                 double priceLamp3 = 18.0;
                 
                 // Values for query
-                string lamp1 = "'Lâmpadas LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before +
+                string lamp1 = "'LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before +
                                ", " + energyAfterLamp1 +
                                ", 10, '', '', '', 'Images/Implementations/Leds/led_1', 'Images/Placements/Leds/leds_1'";
-                string lamp2 = "'Lâmpadas LED 20W', " + unitLamp2 + ", " + priceLamp2 +
+                string lamp2 = "'LED 20W', " + unitLamp2 + ", " + priceLamp2 +
                                ", 500," + energy_before + ", " + energyAfterLamp2 +
                                ", 20, '', '', '', 'Images/Implementations/Leds/led_2', 'Images/Placements/Leds/leds_2'";
-                string lamp3 = "'Lâmpadas LED 50W', " + unitLamp3 +
+                string lamp3 = "'LED 50W', " + unitLamp3 +
                                ", " + priceLamp3 + ", 1500, " + energy_before + ", " + energyAfterLamp3 +
                                ", 50, '', '', '','Images/Implementations/Leds/led_3', 'Images/Placements/Leds/leds_3'";
 
@@ -296,10 +298,10 @@ namespace Database
                 int angleSensor2 = 360;
 
                 // Values for query
-                string sensor1 = "'Sensor 180º', " + unitSensor1 + ", " + priceSensors1 + ", " + reachSensor + ", " +
+                string sensor1 = "'180º', " + unitSensor1 + ", " + priceSensors1 + ", " + reachSensor + ", " +
                                  angleSensor1 + ", 500, " + energy_before +
                                  ", " + energyAfterSensors + ",'', '', '', 'Images/Implementations/Sensors/sensor_1', 'Images/Placements/Sensors/sensors_1'";
-                string sensor2 = "'Sensor 360º', " + unitSensor2 + ", " + priceSensors2 + ", " + reachSensor + ", " +
+                string sensor2 = "'360º', " + unitSensor2 + ", " + priceSensors2 + ", " + reachSensor + ", " +
                                  angleSensor2 + ", 1000," + energy_before + ", " + energyAfterSensors +
                                  ", '', '', '', 'Images/Implementations/Sensors/sensor_2', 'Images/Placements/Sensors/sensors_2'";
 
@@ -371,14 +373,14 @@ namespace Database
                 int panelh3 = panelh1 + panelh2;
 
                 // Values for query
-                string panel1 = "'Painéis Solares no Estacionamento', " + unitPanel1 + ", " + pricePanel1 + ", 2000," +
+                string panel1 = "'Estacionamento', " + unitPanel1 + ", " + pricePanel1 + ", 2000," +
                                 panelw1 + "," + panelh1 + ", " + energy_before + ", " + energyAfterPanel1 +
                                 ", 20, '', '', '', 'Images/Implementations/Panels/panels_1', 'Images/Placements/Panels/panels_1'";
-                string panel2 = "'Painéis Solares no Telhado do Edifício Escolar', " + unitPanel2 + ", " + pricePanel2 +
+                string panel2 = "'Telhado do Edifício', " + unitPanel2 + ", " + pricePanel2 +
                                 ", 3000," +
                                 panelw2 + "," + panelh2 + ", " + energy_before + ", " + energyAfterPanel2 +
                                 ", 330, '', '', '', 'Images/Implementations/Panels/panels_2', 'Images/Placements/Panels/panels_2'";
-                string panel3 = "'Painéis Solares no Estacionamento e no Telhado do Edifício Escolar', " + unitPanel3 +
+                string panel3 = "'Ambos os Locais', " + unitPanel3 +
                                 ", " + pricePanel3 + ", 1000," +
                                 panelw3 + "," + panelh3 + ", " + energy_before + ", " + energyAfterPanel3 +
                                 ", 350, '', '', '', 'Images/Implementations/Panels/panels_3', 'Images/Placements/Panels/panels_3'";

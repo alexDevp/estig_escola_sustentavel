@@ -19,6 +19,7 @@ TagManager:
   - GroudTeleportLandingPad
   - ActivateLamps
   - ActivateSensors
+  - GameStartPlatform
   layers:
   - Default
   - TransparentFX

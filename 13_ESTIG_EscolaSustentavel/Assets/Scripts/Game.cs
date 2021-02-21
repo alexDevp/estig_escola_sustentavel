@@ -24,6 +24,7 @@ public class Game : MonoBehaviour
     private int _pickedPanels = 0;
     private int _pickedSensors = 0;
     private int _timepassed = 0;
+    private int _rendered = 0;
     private LoadImages _loadImages;
     public DatabaseManager databaseManager;
     public GameObject parkingSolarPanels;
@@ -36,6 +37,7 @@ public class Game : MonoBehaviour
 
     public GameObject snackBarInstructions;
     public Text textInstructions;
+    public Text objective;
     
     public string Name => _name;
 
@@ -56,6 +58,7 @@ public class Game : MonoBehaviour
     public Text cashRemaining;
     public GenericInfo completedMessage;
     public GameObject button;
+    
 
     //Lamps
     public Text energyBeforeLamps;
@@ -68,12 +71,16 @@ public class Game : MonoBehaviour
     public Text lamp1Price;
     public Text lamp2Price;
     public Text lamp3Price;
+    public Text lamp1Name;
+    public Text lamp2Name;
+    public Text lamp3Name;
     public RawImage imageLamps1;
     public RawImage imageLamps2;
     public RawImage imageLamps3;
     public RawImage imageLampsPlacement;
     public GameObject textLamps;
-
+    public Transform LampsMenu;
+    
     //Panels
     public Text panel1Quantity;
     public Text panel2Quantity;
@@ -81,6 +88,9 @@ public class Game : MonoBehaviour
     public Text panel1Price;
     public Text panel2Price;
     public Text panel3Price;
+    public Text panel1Name;
+    public Text panel2Name;
+    public Text panel3Name;
     public Text panelEnergyProduction;
     public Text panelSavingsMoney;
     public RawImage imagePanels1;
@@ -89,12 +99,15 @@ public class Game : MonoBehaviour
     public RawImage imagePanelsPlacement;
     public GameObject textParkingLot;
     public GameObject textRoof;
+    public Transform PanelsMenu;
 
     //PickedSensors
     public Text sensor1Quantity;
     public Text sensor2Quantity;
     public Text sensor1Price;
     public Text sensor2Price;
+    public Text sensor1Name;
+    public Text sensor2Name;
     public Text sensorsEnergyBefore;
     public Text sensorsEnergyAfter;
     public Text sensorsSavingsEnergy;
@@ -103,6 +116,7 @@ public class Game : MonoBehaviour
     public RawImage imageSensors2;
     public RawImage imageSensorsPlacement;
     public GameObject textSensors;
+    public Transform SensorsMenu;
 
     /**
      * Função Start do Projeto
@@ -119,6 +133,17 @@ public class Game : MonoBehaviour
         timer.Enabled = true;
         cashRemaining.text = _budget + " €";
         scoreUntilNow.text = _score + " Pts";
+        
+    }
+
+    private void Update()
+    {
+        if (_rendered == 0)
+        {
+            GenericInfo objectiveInfo = databaseManager.GetGenericInfo(7);
+            objective.text = objectiveInfo.Content;
+            _rendered = 1;
+        }
     }
 
     /**
@@ -136,14 +161,16 @@ public class Game : MonoBehaviour
         Lamp lamp1 = databaseManager.GetLamps(1);
         lamp1Quantity.text = lamp1.UnitCount.ToString();
         lamp1Price.text = Math.Round((lamp1.UnitPrice * lamp1.UnitCount), 2) + "€";
-
+        lamp1Name.text = lamp1.Name;
+        
         Lamp lamp2 = databaseManager.GetLamps(2);
         lamp2Quantity.text = lamp2.UnitCount.ToString();
         lamp2Price.text = Math.Round((lamp2.UnitPrice * lamp2.UnitCount), 2) + "€";
-
+        lamp2Name.text = lamp2.Name;
         Lamp lamp3 = databaseManager.GetLamps(3);
         lamp3Quantity.text = lamp3.UnitCount.ToString();
         lamp3Price.text = Math.Round((lamp3.UnitPrice * lamp3.UnitCount), 2) + "€";
+        lamp3Name.text = lamp3.Name;
         
         _loadImages.LoadImageFromPathIntoRawImage(lamp1.ImagePath, imageLamps1);
         _loadImages.LoadImageFromPathIntoRawImage(lamp2.ImagePath, imageLamps2);
@@ -161,15 +188,18 @@ public class Game : MonoBehaviour
         panel1Quantity.text = panel1.UnitCount.ToString();
         double totalPanel1 = panel1.UnitPrice * panel1.UnitCount;
         panel1Price.text = Math.Round((totalPanel1), 2) + "€";
-
+        panel1Name.text = panel1.Name;
+        
         Panel panel2 = databaseManager.GetPanels(2);
         panel2Quantity.text = panel2.UnitCount.ToString();
         double totalPanel2 = panel2.UnitPrice * panel2.UnitCount;
         panel2Price.text = Math.Round((totalPanel2), 2) + "€";
+        panel2Name.text = panel2.Name;
 
         Panel panel3 = databaseManager.GetPanels(3);
         panel3Quantity.text = panel3.UnitCount.ToString();
         panel3Price.text = Math.Round((totalPanel1 + totalPanel2), 2) + "€";
+        panel3Name.text = panel3.Name;
         
         _loadImages.LoadImageFromPathIntoRawImage(panel1.ImagePath, imagePanels1);
         _loadImages.LoadImageFromPathIntoRawImage(panel2.ImagePath, imagePanels2);
@@ -188,9 +218,11 @@ public class Game : MonoBehaviour
         Sensor sensor1 = databaseManager.GetSensors(1);
         sensor1Quantity.text = sensor1.UnitCount.ToString();
         sensor1Price.text = Math.Round((sensor1.UnitPrice * sensor1.UnitCount), 2) + "€";
+        sensor1Name.text = sensor1.Name;
         Sensor sensor2 = databaseManager.GetSensors(2);
         sensor2Quantity.text = sensor2.UnitCount.ToString();
         sensor2Price.text = Math.Round((sensor2.UnitPrice * sensor2.UnitCount), 2) + "€";
+        sensor2Name.text = sensor2.Name;
         
         _loadImages.LoadImageFromPathIntoRawImage(sensor1.ImagePath, imageSensors1);
         _loadImages.LoadImageFromPathIntoRawImage(sensor2.ImagePath, imageSensors2);
@@ -358,7 +390,7 @@ public class Game : MonoBehaviour
             _score = _score + panel.Points;
             cashRemaining.text = _budget + " €";
             scoreUntilNow.text = _score + " Pts";
-            
+
         }
         
         if (_pickedPanels == 1)
@@ -408,6 +440,7 @@ public class Game : MonoBehaviour
     public void CancelLamps()
     {
         _pickedLamps = 0;
+        LampsMenu.gameObject.SetActive(false);
         _loadImages.UnloadImage(imageLampsPlacement);
     }
 
@@ -417,6 +450,7 @@ public class Game : MonoBehaviour
     public void CancelPanels()
     {
         _pickedPanels = 0;
+        PanelsMenu.gameObject.SetActive(false);
         _loadImages.UnloadImage(imagePanelsPlacement);
     }
 
@@ -426,6 +460,7 @@ public class Game : MonoBehaviour
     public void CancelSensors()
     {
         _pickedSensors = 0;
+        SensorsMenu.gameObject.SetActive(false);
         _loadImages.UnloadImage(imageSensorsPlacement);
     }
     

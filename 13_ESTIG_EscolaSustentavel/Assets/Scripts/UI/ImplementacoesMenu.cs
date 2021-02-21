@@ -7,6 +7,10 @@ public class ImplementacoesMenu : MonoBehaviour
     public static bool menuIsOpen = false;
 
     public GameObject implementationsMenuUI;
+    
+    public GameObject lampsMenu;
+    public GameObject sensorsMenu;
+    public GameObject panelsMenu;
 
     void Update()
     {
@@ -14,6 +18,9 @@ public class ImplementacoesMenu : MonoBehaviour
         {
             if(menuIsOpen)
             {
+                lampsMenu.SetActive(false);
+                sensorsMenu.SetActive(false);
+                panelsMenu.SetActive(false);
                 CloseMenu();
             }
             else
