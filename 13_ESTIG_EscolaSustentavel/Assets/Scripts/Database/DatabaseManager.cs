@@ -63,19 +63,22 @@ namespace Database
                 string lampsTable =
                     "CREATE TABLE IF NOT EXISTS[lamps] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(50) NOT NULL," +
                     " unit_count INTEGER NOT NULL, unit_price REAL NOT NULL, points INTEGER NOT NULL, energy_before INTEGER NOT NULL," +
-                    " energy_after INTEGER NOT NULL, power INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL, image_path VARCHAR(250) NOT NULL, arrangement_image_path VARCHAR(250) NOT NULL);";
+                    " energy_after INTEGER NOT NULL, power INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL," +
+                    " image_path VARCHAR(250) NOT NULL, arrangement_image_path VARCHAR(250) NOT NULL);";
 
                 string sensorsTable =
                     "CREATE TABLE IF NOT EXISTS[sensors] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(50) NOT NULL," +
                     " unit_count INTEGER NOT NULL, unit_price REAL NOT NULL, points INTEGER NOT NULL, energy_before INTEGER NOT NULL," +
                     " reach INTEGER NOT NULL, angle INTEGER NOT NULL," +
-                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL, image_path VARCHAR(250) NOT NULL, arrangement_image_path VARCHAR(250) NOT NULL);";
+                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL, " +
+                    "image_path VARCHAR(250) NOT NULL, arrangement_image_path VARCHAR(250) NOT NULL);";
 
                 string panelsTable =
                     "CREATE TABLE IF NOT EXISTS[panels] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(50) NOT NULL," +
                     " unit_count INTEGER NOT NULL, unit_price REAL NOT NULL, points INTEGER NOT NULL, energy_before INTEGER NOT NULL," +
                     " dimension_w INTEGER NOT NULL, dimension_h INTEGER NOT NULL, power INTEGER NOT NULL," +
-                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL, image_path VARCHAR(250) NOT NULL, arrangement_image_path VARCHAR(250) NOT NULL);";
+                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL," +
+                    " image_path VARCHAR(250) NOT NULL, arrangement_image_path VARCHAR(250) NOT NULL);";
 
                 string scoresTable =
                     "CREATE TABLE IF NOT EXISTS[scores] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username VARCHAR(50) NOT NULL," +
@@ -222,8 +225,7 @@ namespace Database
                 double priceLamp1 = 4.0;
                 double priceLamp2 = 11.0;
                 double priceLamp3 = 18.0;
-
-
+                
                 // Values for query
                 string lamp1 = "'Lâmpadas LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before +
                                ", " + energyAfterLamp1 +
