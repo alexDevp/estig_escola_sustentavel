@@ -140,7 +140,7 @@ namespace Database
                 {
                     InsertPanelsIntoDB();
                 }
-                
+
                 // Checks if there is any GenericInfo rows in DB. If not, populates the GenericInfo table
                 if (GetGenericInfo(0) == null)
                 {
@@ -161,20 +161,31 @@ namespace Database
                 OpenConnection();
                 DatabaseCommand = DatabaseConnection.CreateCommand();
 
-                string path_to_panels_roof = "'Path To Implementation', 'Dirija-se para a pequena casa branca situada no exterior da ESTIG e vá para o telhado. Procure por uma caixa azul e siga as instruções.'";
-                string path_to_panels_parking = "'Path To Implementation', 'Dirija-se para o exterior da ESTIG e vá para o parque de estacionamento. Procure por uma caixa azul e siga as instruções.'";
-                
-                string path_to_panels_lamps = "'Path To Implementation', 'Dirija-se para dentro da ESTIG e vá para a sala L9. Siga as instruções.'";
-                
-                string path_to_panels_sensors = "'Path To Implementation', 'Dirija-se dentro da ESTIG e procure por instruções no corredor do bar e da sala H2O.'";
+                string path_to_panels_roof =
+                    "'Path To Implementation', 'Dirija-se para a pequena casa branca situada no exterior da ESTIG e vá para o telhado. Procure por uma caixa azul e siga as instruções.'";
+                string path_to_panels_parking =
+                    "'Path To Implementation', 'Dirija-se para o exterior da ESTIG e vá para o parque de estacionamento. Procure por uma caixa azul e siga as instruções.'";
+
+                string path_to_panels_lamps =
+                    "'Path To Implementation', 'Dirija-se para dentro da ESTIG e vá para a sala L9. Siga as instruções.'";
+
+                string path_to_panels_sensors =
+                    "'Path To Implementation', 'Dirija-se dentro da ESTIG e procure por instruções no corredor do bar e da sala H2O.'";
 
                 string implementation_completed = "'Implementation Completed', 'Solução implementada com sucesso!'";
 
-                string game_finished = "'Game Finished', 'Todos as soluções foram implementadas com sucesso, Dirija-se à placa da ESTIG e clique no botão para terminar o jogo.'";
+                string game_finished =
+                    "'Game Finished', 'Todas as soluções foram implementadas com sucesso. Dirija-se à placa da ESTIG e clique no botão para terminar o jogo.'";
 
-                string game_objective = "'Game Objective','O objetivo deste jogo é fazer implementações Ecológicas no Edifício da ESTIG. Para fazer estas implementações abre-se o menu de objetivos (Esc) onde estão todas as implementações para fazer. Para cada implementação tem de ser escolhida e implementada uma opção! Quando todas as implementações estiverem concluídas dá-se o fim do jogo! '";
+                string game_objective =
+                    "'Game Objective','O objetivo deste jogo é fazer implementações Ecológicas no Edifício da ESTIG. Para fazer estas implementações abre-se o menu de objetivos (Esc) onde estão todas as implementações possíveis de realizar. Para cada implementação tem de ser escolhida e implementada uma opção! Quando todas as implementações estiverem concluídas, dá-se o fim do jogo!'";
 
-                string insert = string.Format("INSERT INTO generic_info(info_type, content) VALUES ({0}), ({1}), ({2}), ({3}), ({4}), ({5}), ({6});", path_to_panels_roof, path_to_panels_parking, path_to_panels_lamps, path_to_panels_sensors, implementation_completed, game_finished, game_objective);
+                string empty_field = "'Empty Field','Por favor, preencha o nome de jogador.'";
+
+                string insert = string.Format(
+                    "INSERT INTO generic_info(info_type, content) VALUES ({0}), ({1}), ({2}), ({3}), ({4}), ({5}), ({6}), ({7});",
+                    path_to_panels_roof, path_to_panels_parking, path_to_panels_lamps, path_to_panels_sensors,
+                    implementation_completed, game_finished, game_objective, empty_field);
 
                 DatabaseCommand.CommandText = insert;
                 object ob = DatabaseCommand.ExecuteScalar();
@@ -193,7 +204,7 @@ namespace Database
                 }
             }
         }
-        
+
         /**
          * A method to insert data into the lamps table
          */
@@ -227,7 +238,7 @@ namespace Database
                 double priceLamp1 = 4.0;
                 double priceLamp2 = 11.0;
                 double priceLamp3 = 18.0;
-                
+
                 // Values for query
                 string lamp1 = "'LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before +
                                ", " + energyAfterLamp1 +
@@ -241,7 +252,9 @@ namespace Database
 
                 // Query to insert in DB
                 string insert =
-                    string.Format("INSERT INTO lamps(name, unit_count, unit_price, points, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});", lamp1, lamp2, lamp3);
+                    string.Format(
+                        "INSERT INTO lamps(name, unit_count, unit_price, points, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});",
+                        lamp1, lamp2, lamp3);
 
                 // Executes the insert
                 DatabaseCommand.CommandText = insert;
@@ -300,14 +313,17 @@ namespace Database
                 // Values for query
                 string sensor1 = "'180º', " + unitSensor1 + ", " + priceSensors1 + ", " + reachSensor + ", " +
                                  angleSensor1 + ", 500, " + energy_before +
-                                 ", " + energyAfterSensors + ",'', '', '', 'Images/Implementations/Sensors/sensor_1', 'Images/Placements/Sensors/sensors_1'";
+                                 ", " + energyAfterSensors +
+                                 ",'', '', '', 'Images/Implementations/Sensors/sensor_1', 'Images/Placements/Sensors/sensors_1'";
                 string sensor2 = "'360º', " + unitSensor2 + ", " + priceSensors2 + ", " + reachSensor + ", " +
                                  angleSensor2 + ", 1000," + energy_before + ", " + energyAfterSensors +
                                  ", '', '', '', 'Images/Implementations/Sensors/sensor_2', 'Images/Placements/Sensors/sensors_2'";
 
                 // Query to insert in DB
                 string insert =
-                    string.Format("INSERT INTO sensors(name, unit_count, unit_price, reach, angle, points, energy_before, energy_after, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1});", sensor1, sensor2);
+                    string.Format(
+                        "INSERT INTO sensors(name, unit_count, unit_price, reach, angle, points, energy_before, energy_after, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1});",
+                        sensor1, sensor2);
 
                 // Executes the insert
                 DatabaseCommand.CommandText = insert;
@@ -387,7 +403,9 @@ namespace Database
 
                 // Query to insert in DB
                 string insert =
-                    string.Format("INSERT INTO panels(name, unit_count, unit_price, points, dimension_w, dimension_h, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});", panel1, panel2, panel3);
+                    string.Format(
+                        "INSERT INTO panels(name, unit_count, unit_price, points, dimension_w, dimension_h, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});",
+                        panel1, panel2, panel3);
 
                 // Executes the insert
                 DatabaseCommand.CommandText = insert;
@@ -415,17 +433,32 @@ namespace Database
         {
             using (DatabaseConnection)
             {
+                Score scorebd = GetScores(score.Username);
                 // Opens DBConnection
                 OpenConnection();
 
                 using (DatabaseCommand = DatabaseConnection.CreateCommand())
                 {
-                    // Query to insert in DB
-                    string insert =
-                        string.Format(
-                            "INSERT INTO scores(username, score, timepassed, created_at, lamp_id, panels_id, sensors_id) VALUES({0}), ({1}), ({2}), ({3}), ({4}), ({5}), ({6});",
-                            score.Username, score.ScoreValue, score.Timepassed, score.CreatedAt, score.LampId,
-                            score.PanelsId, score.SensorsId);
+                    string insert;
+                    
+                    if (scorebd != null)
+                    {
+                        insert = string.Format(
+                            "UPDATE scores SET score = {0}, timepassed = {1}, created_at = {2}, lamp_id = {3}, panels_id = {4}, sensors_id = {5} WHERE username LIKE {6};",
+                            score.ScoreValue, score.Timepassed, score.CreatedAt, score.LampId, score.PanelsId,
+                            score.SensorsId, "'" + score.Username + "'");
+                    }
+                    else
+                    {
+                        // Query to insert in DB
+                        insert =
+                            string.Format(
+                                "INSERT INTO scores(username, score, timepassed, created_at, lamp_id, panels_id, sensors_id) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6});",
+                                "'" + score.Username + "'", score.ScoreValue, score.Timepassed, score.CreatedAt,
+                                score.LampId,
+                                score.PanelsId, score.SensorsId);
+                    }
+
                     DatabaseCommand.CommandText = insert;
                     DatabaseCommand.ExecuteScalar();
                     CloseConnection();
@@ -627,12 +660,63 @@ namespace Database
             }
         }
 
+        /**
+         * Gets rows from Panels table
+         */
+        public Score GetScores(string username)
+        {
+            using (DatabaseConnection)
+            {
+                // Open DB Connection
+                OpenConnection();
+                string queryCheckIfExistsPanels;
+
+                if (String.IsNullOrEmpty(username))
+                {
+                    queryCheckIfExistsPanels = "SELECT * FROM scores;";
+                }
+                else
+                {
+                    queryCheckIfExistsPanels = "SELECT * FROM scores WHERE username LIKE '" + username + "';";
+                }
+
+                using (DatabaseCommand = DatabaseConnection.CreateCommand())
+                {
+                    DatabaseCommand.CommandText = queryCheckIfExistsPanels;
+
+                    using (SqliteDataReader ob = DatabaseCommand.ExecuteReader())
+                    {
+                        Score score = null;
+
+                        while (ob.Read() && ob.HasRows)
+                        {
+                            score = new Score(Convert.ToInt32(ob["id"]), Convert.ToString(ob["username"]),
+                                Convert.ToInt32(ob["score"]),
+                                Convert.ToInt32(ob["timepassed"]), Convert.ToInt64(ob["created_at"]),
+                                Convert.ToInt32(ob["lamp_id"]),
+                                Convert.ToInt32(ob["panels_id"]), Convert.ToInt32(ob["sensors_id"]));
+                        }
+
+                        // Closes DB connection
+                        CloseConnection();
+
+                        return score;
+                    }
+                }
+            }
+        }
+
 
         /**
          * Opens DB Connection
          */
         public void OpenConnection()
         {
+            if (DatabaseConnection == null)
+            {
+                DatabaseConnection = new SqliteConnection(Filepath);
+            }
+
             if (DatabaseConnection.State == ConnectionState.Closed)
             {
                 DatabaseConnection.Open();
@@ -644,6 +728,11 @@ namespace Database
          */
         public void CloseConnection()
         {
+            if (DatabaseConnection == null)
+            {
+                DatabaseConnection = new SqliteConnection(Filepath);
+            }
+
             if (DatabaseConnection.State == ConnectionState.Open)
             {
                 DatabaseConnection.Close();

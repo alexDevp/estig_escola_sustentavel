@@ -8,6 +8,7 @@ using Database.Model;
 using Mono.Data.Sqlite;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Game : MonoBehaviour
@@ -27,6 +28,7 @@ public class Game : MonoBehaviour
     private int _rendered = 0;
     private LoadImages _loadImages;
     public DatabaseManager databaseManager;
+
     public GameObject parkingSolarPanels;
     public GameObject roofSolarPanels;
     public GameObject classroomLamps1;
@@ -34,11 +36,12 @@ public class Game : MonoBehaviour
     public GameObject classroomLamps3;
     public GameObject hallSensors1;
     public GameObject hallSensors2;
+    public GameObject playerUi;
 
     public GameObject snackBarInstructions;
     public Text textInstructions;
     public Text objective;
-    
+
     public string Name => _name;
 
     public double Budget => _budget;
@@ -53,12 +56,15 @@ public class Game : MonoBehaviour
 
     public int Timepassed => _timepassed;
 
+    // Endgame ui
+    public EndGame endGame;
+    public InputField playerName;
+
     //General UI
     public Text scoreUntilNow;
     public Text cashRemaining;
     public GenericInfo completedMessage;
     public GameObject button;
-    
 
     //Lamps
     public Text energyBeforeLamps;
@@ -80,7 +86,7 @@ public class Game : MonoBehaviour
     public RawImage imageLampsPlacement;
     public GameObject textLamps;
     public Transform LampsMenu;
-    
+
     //Panels
     public Text panel1Quantity;
     public Text panel2Quantity;
@@ -133,7 +139,6 @@ public class Game : MonoBehaviour
         timer.Enabled = true;
         cashRemaining.text = _budget + " €";
         scoreUntilNow.text = _score + " Pts";
-        
     }
 
     private void Update()
@@ -162,7 +167,7 @@ public class Game : MonoBehaviour
         lamp1Quantity.text = lamp1.UnitCount.ToString();
         lamp1Price.text = Math.Round((lamp1.UnitPrice * lamp1.UnitCount), 2) + "€";
         lamp1Name.text = lamp1.Name;
-        
+
         Lamp lamp2 = databaseManager.GetLamps(2);
         lamp2Quantity.text = lamp2.UnitCount.ToString();
         lamp2Price.text = Math.Round((lamp2.UnitPrice * lamp2.UnitCount), 2) + "€";
@@ -171,7 +176,7 @@ public class Game : MonoBehaviour
         lamp3Quantity.text = lamp3.UnitCount.ToString();
         lamp3Price.text = Math.Round((lamp3.UnitPrice * lamp3.UnitCount), 2) + "€";
         lamp3Name.text = lamp3.Name;
-        
+
         _loadImages.LoadImageFromPathIntoRawImage(lamp1.ImagePath, imageLamps1);
         _loadImages.LoadImageFromPathIntoRawImage(lamp2.ImagePath, imageLamps2);
         _loadImages.LoadImageFromPathIntoRawImage(lamp3.ImagePath, imageLamps3);
@@ -189,7 +194,7 @@ public class Game : MonoBehaviour
         double totalPanel1 = panel1.UnitPrice * panel1.UnitCount;
         panel1Price.text = Math.Round((totalPanel1), 2) + "€";
         panel1Name.text = panel1.Name;
-        
+
         Panel panel2 = databaseManager.GetPanels(2);
         panel2Quantity.text = panel2.UnitCount.ToString();
         double totalPanel2 = panel2.UnitPrice * panel2.UnitCount;
@@ -200,7 +205,7 @@ public class Game : MonoBehaviour
         panel3Quantity.text = panel3.UnitCount.ToString();
         panel3Price.text = Math.Round((totalPanel1 + totalPanel2), 2) + "€";
         panel3Name.text = panel3.Name;
-        
+
         _loadImages.LoadImageFromPathIntoRawImage(panel1.ImagePath, imagePanels1);
         _loadImages.LoadImageFromPathIntoRawImage(panel2.ImagePath, imagePanels2);
         _loadImages.LoadImageFromPathIntoRawImage(panel3.ImagePath, imagePanels3);
@@ -223,7 +228,7 @@ public class Game : MonoBehaviour
         sensor2Quantity.text = sensor2.UnitCount.ToString();
         sensor2Price.text = Math.Round((sensor2.UnitPrice * sensor2.UnitCount), 2) + "€";
         sensor2Name.text = sensor2.Name;
-        
+
         _loadImages.LoadImageFromPathIntoRawImage(sensor1.ImagePath, imageSensors1);
         _loadImages.LoadImageFromPathIntoRawImage(sensor2.ImagePath, imageSensors2);
     }
@@ -245,24 +250,23 @@ public class Game : MonoBehaviour
         roofSolarPanels.SetActive(false);
         textRoof.SetActive(false);
         textParkingLot.SetActive(false);
-        
+
         // Lamps
         textLamps.SetActive(false);
         classroomLamps1.SetActive(false);
         classroomLamps2.SetActive(false);
         classroomLamps3.SetActive(false);
-        
+
         // Sensors
         textSensors.SetActive(false);
         hallSensors1.SetActive(false);
         hallSensors2.SetActive(false);
-        
+
         //Snackbar
         snackBarInstructions.SetActive(false);
 
         //Button
         button.SetActive(false);
-
     }
 
     /**
@@ -300,6 +304,14 @@ public class Game : MonoBehaviour
         }
     }
 
+    private IEnumerator ShowEmptyField()
+    {
+        completedMessage = databaseManager.GetGenericInfo(8);
+        ShowSnackbar(completedMessage.Content);
+        yield return new WaitForSeconds(5);
+        HideSnackbar();
+    }
+
     /**
      * Show End Game Snackbar and enable the Button
      */
@@ -321,7 +333,7 @@ public class Game : MonoBehaviour
         panelEnergyProduction.text = (panel.EnergyBefore - panel.EnergyAfter) + " kWh";
         panelSavingsMoney.text = Math.Round(((panel.EnergyBefore - panel.EnergyAfter) * Khwprice), 2) + " €";
         print(panel.Name);
-        
+
         _loadImages.LoadImageFromPathIntoRawImage(panel.ArrangementImagePath, imagePanelsPlacement);
     }
 
@@ -336,7 +348,7 @@ public class Game : MonoBehaviour
         savingsEnergyLamps.text = (lamps.EnergyBefore - lamps.EnergyAfter) + " kWh";
         savingsPriceLamps.text = Math.Round(((lamps.EnergyBefore - lamps.EnergyAfter) * Khwprice), 2) + " €";
         print(lamps.Name);
-        
+
         _loadImages.LoadImageFromPathIntoRawImage(lamps.ArrangementImagePath, imageLampsPlacement);
     }
 
@@ -351,10 +363,10 @@ public class Game : MonoBehaviour
         sensorsSavingsEnergy.text = (sensor.EnergyBefore - sensor.EnergyAfter) + " kWh";
         sensorsSavingsMoney.text = Math.Round(((sensor.EnergyBefore - sensor.EnergyAfter) * Khwprice), 2) + " €";
         print(sensor.Name);
-        
+
         _loadImages.LoadImageFromPathIntoRawImage(sensor.ArrangementImagePath, imageSensorsPlacement);
     }
-    
+
     //******Confirmar Implementações******//
     /**
      * Confirmar a opção das lâmpadas
@@ -371,7 +383,7 @@ public class Game : MonoBehaviour
             GenericInfo genericInfo = databaseManager.GetGenericInfo(3);
             ShowSnackbar(genericInfo.Content);
         }
-        
+
         if (_pickedLamps == 1 || _pickedLamps == 2 || _pickedLamps == 3)
         {
             textLamps.SetActive(true);
@@ -390,9 +402,8 @@ public class Game : MonoBehaviour
             _score = _score + panel.Points;
             cashRemaining.text = _budget + " €";
             scoreUntilNow.text = _score + " Pts";
-
         }
-        
+
         if (_pickedPanels == 1)
         {
             GenericInfo genericInfo = databaseManager.GetGenericInfo(2);
@@ -430,7 +441,6 @@ public class Game : MonoBehaviour
             cashRemaining.text = _budget + " €";
             scoreUntilNow.text = _score + " Pts";
         }
-        
     }
 
     //******Cancelar Implementações******//
@@ -463,7 +473,7 @@ public class Game : MonoBehaviour
         SensorsMenu.gameObject.SetActive(false);
         _loadImages.UnloadImage(imageSensorsPlacement);
     }
-    
+
     //*****Mostrar Implementações*****//
     //Faz aparecer paineis
     public void ImplementPanels(int panelsType)
@@ -515,7 +525,6 @@ public class Game : MonoBehaviour
                 {
                     _half = 1;
                 }
-                
             }
 
             if (_panels == 1 && _half == 1)
@@ -524,14 +533,14 @@ public class Game : MonoBehaviour
                 StartCoroutine(ShowCompleted());
             }
         }
-        
-        
+
+
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
             ShowEndSnack();
         }
     }
-    
+
     //Faz aparecer lampadas
     public void ImplementLamps()
     {
@@ -551,15 +560,16 @@ public class Game : MonoBehaviour
             classroomLamps3.SetActive(true);
             _lamps = 1;
         }
+
         HideSnackbar();
         StartCoroutine(ShowCompleted());
-        
+
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
             ShowEndSnack();
         }
     }
-    
+
     //Faz aparecer os sensores
     public void ImplementSensors()
     {
@@ -574,6 +584,7 @@ public class Game : MonoBehaviour
             hallSensors2.SetActive(true);
             _sensors = 1;
         }
+
         HideSnackbar();
         StartCoroutine(ShowCompleted());
 
@@ -584,30 +595,79 @@ public class Game : MonoBehaviour
     }
 
     //Termina o jogo e pede o nome ao jogador enquanto mostra um resumo do que fez
-    public void AcabarJogo()
+    public void EndGame()
     {
+        
+        Lamp lamp = databaseManager.GetLamps(_pickedLamps);
+        Panel panel = databaseManager.GetPanels(_pickedPanels);
+        Sensor sensor = databaseManager.GetSensors(_pickedSensors);
 
-        //TODO Mostrar o resumo ao jogador consoante o que escolheu (Ir buscar á BD consoante os IDS)
-        //TODO Pedir o Nome do jogador (Meter Input com texto debaixo)
-        //TODO Inserir Tudo na BD (Correr Script para adicionar tudo á tabela)
-        Score score = new Score(0, _name, _score, _timepassed, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds(),
-            _pickedLamps, _pickedPanels, _pickedSensors);
-        databaseManager.InsertScoreIntoDB(score);
-        //TODO Voltar para o MENU Principal (Trocar a scene para 0)
-        _name = "";
-        _pickedLamps = 0;
-        _pickedPanels = 0;
-        _pickedSensors = 0;
-        _timepassed = 0;
-        _panels = 0;
-        _lamps = 0;
-        _sensors = 0;
-        _half = 0;
+        string lampText = "";
+        if (_lamps == 3)
+        {
+            lampText = lamp.PositiveText;
+        }
+        else
+        {
+            lampText = lamp.NegativeText;
+        }
+
+        string panelText = "";
+        if (_pickedPanels == 2)
+        {
+            panelText = panel.PositiveText;
+        }
+        else
+        {
+            panelText = panel.NegativeText;
+        }
+
+        string sensorText = "";
+        if (_pickedSensors == 2)
+        {
+            sensorText = sensor.PositiveText;
+        }
+        else
+        {
+            sensorText = sensor.NegativeText;
+        }
+        
+        endGame.FillEndGameTexts(_timepassed, _score, panelText, lampText, sensorText);
+        endGame.ChangeColors(_pickedPanels, _pickedSensors, _pickedLamps);
+        HideSnackbar();
+        playerUi.SetActive(false);
+        endGame.OpenMenu();
+        Cursor.visible = true;
+
     }
 
-    public void coisas()
+    public void FinishGame()
     {
-        print("Hello!");
+        
+        if (String.IsNullOrEmpty(playerName.text))
+        {
+            ShowEmptyField();
+        }
+        else
+        {
+            _name = playerName.text;
+            Score score = new Score(0, _name, _score, _timepassed, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds(),
+                _pickedLamps, _pickedPanels, _pickedSensors);
+            databaseManager.InsertScoreIntoDB(score);
+        
+            SceneManager.LoadScene(0);
+            
+            _name = "";
+            _pickedLamps = 0;
+            _pickedPanels = 0;
+            _pickedSensors = 0;
+            _timepassed = 0;
+            _panels = 0;
+            _lamps = 0;
+            _sensors = 0;
+            _half = 0;
+        }
+        
     }
 
     public void HandleTimerElapsed(object sender, ElapsedEventArgs e)

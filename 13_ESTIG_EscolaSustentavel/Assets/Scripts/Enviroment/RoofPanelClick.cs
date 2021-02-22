@@ -28,7 +28,7 @@ public class RoofPanelClick : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(electricalSwitchboard.tag))
             {
-                if (_isGameNotNull && !_didImplement)
+                if (_isGameNotNull && !_didImplement && (_game.PickedPanels == 2 || _game.PickedPanels == 3))
                 {
                     _game.ImplementPanels(2);
                     _didImplement = true;
