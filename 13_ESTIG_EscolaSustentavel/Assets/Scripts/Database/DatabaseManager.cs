@@ -249,13 +249,13 @@ namespace Database
 
                 // Values for query
                 string lamp1 = "'LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before + ", " + energyAfterLamp1 +
-                               ", 10, " + infoLamp1 + ", 'Images/Implementations/Leds/led_1', 'Images/Placements/Leds/leds_1'";
+                               ", 10, '" + infoLamp1 + "', 'Images/Implementations/Leds/led_1', 'Images/Placements/Leds/leds_1'";
 
                 string lamp2 = "'LED 20W', " + unitLamp2 + ", " + priceLamp2 + ", 500," + energy_before + ", " + energyAfterLamp2 +
-                                ", 20, " + infoLamp2 + ", 'Images/Implementations/Leds/led_2', 'Images/Placements/Leds/leds_2'";
+                                ", 20, '" + infoLamp2 + "', 'Images/Implementations/Leds/led_2', 'Images/Placements/Leds/leds_2'";
 
                 string lamp3 = "'LED 50W', " + unitLamp3 + ", " + priceLamp3 + ", 1500, " + energy_before + ", " + energyAfterLamp3 +
-                                ", 50, " + infoLamp3 + ", 'Images/Implementations/Leds/led_3', 'Images/Placements/Leds/leds_3'";
+                                ", 50, '" + infoLamp3 + "', 'Images/Implementations/Leds/led_3', 'Images/Placements/Leds/leds_3'";
 
                 // Query to insert in DB
                 string insert =
@@ -326,11 +326,11 @@ namespace Database
                 // Values for query
                 string sensor1 = "'180º', " + unitSensor1 + ", " + priceSensors1 + ", " + reachSensor + ", " +
                                  angleSensor1 + ", 500, " + energy_before + ", " + energyAfterSensors +
-                                 ", " + infoSens1 + ", 'Images/Implementations/Sensors/sensor_1', 'Images/Placements/Sensors/sensors_1'";
+                                 ", '" + infoSens1 + "', 'Images/Implementations/Sensors/sensor_1', 'Images/Placements/Sensors/sensors_1'";
 
                 string sensor2 = "'360º', " + unitSensor2 + ", " + priceSensors2 + ", " + reachSensor + ", " +
                                  angleSensor2 + ", 1000," + energy_before + ", " + energyAfterSensors +
-                                 ", " + infoSens2 + ", 'Images/Implementations/Sensors/sensor_2', 'Images/Placements/Sensors/sensors_2'";
+                                 ", '" + infoSens2 + "', 'Images/Implementations/Sensors/sensor_2', 'Images/Placements/Sensors/sensors_2'";
 
                 // Query to insert in DB
                 string insert =
@@ -403,7 +403,7 @@ namespace Database
 
                 // Final info text for each solution
                 string infoPanel1 = "A implementação das duas soluções dos Painéis Solares irá dar à Escola uma maior produção de energia, no entanto esta implementação " +
-                    "trará um custo bastante elevado a curto prazo pois tem um custo de quase 60 mil euros associado à sua instalação que só ao fim de vários anos é que estaria 'pago' pela energia que se poupou";
+                    "trará um custo bastante elevado a curto prazo pois tem um custo de quase 60 mil euros associado à sua instalação que só ao fim de vários anos é que estaria pago pela energia que se poupou";
 
                 string infoPanel2 = "Esta Solução além do seu alto custo tem também uma desvantagem muito grande que é a desflorestação da àrea à volta do estacionamento." +
                     " Ainda que um pouco cara, uma vez estando paga pela energia produzida esta começa a descontar na fatura da luz";
@@ -413,17 +413,17 @@ namespace Database
                 // Values for query
                 string panel1 = "'Estacionamento', " + unitPanel1 + ", " + pricePanel1 + ", 2000," +
                                 panelw1 + "," + panelh1 + ", " + energy_before + ", " + energyAfterPanel1 +
-                                ", 20, " + infoPanel1 +", 'Images/Implementations/Panels/panels_1', 'Images/Placements/Panels/panels_1'";
+                                ", 20, '" + infoPanel1 +"', 'Images/Implementations/Panels/panels_1', 'Images/Placements/Panels/panels_1'";
 
                 string panel2 = "'Telhado do Edifício', " + unitPanel2 + ", " + pricePanel2 +
                                 ", 3000," +
                                 panelw2 + "," + panelh2 + ", " + energy_before + ", " + energyAfterPanel2 +
-                                ", 330, " + infoPanel2 + ", 'Images/Implementations/Panels/panels_2', 'Images/Placements/Panels/panels_2'";
+                                ", 330, '" + infoPanel2 + "', 'Images/Implementations/Panels/panels_2', 'Images/Placements/Panels/panels_2'";
 
                 string panel3 = "'Ambos os Locais', " + unitPanel3 +
                                 ", " + pricePanel3 + ", 1000," +
                                 panelw3 + "," + panelh3 + ", " + energy_before + ", " + energyAfterPanel3 +
-                                ", 350, " + infoPanel3 + ", 'Images/Implementations/Panels/panels_3', 'Images/Placements/Panels/panels_3'";
+                                ", 350, '" + infoPanel3 + "', 'Images/Implementations/Panels/panels_3', 'Images/Placements/Panels/panels_3'";
 
                 // Query to insert in DB
                 string insert =

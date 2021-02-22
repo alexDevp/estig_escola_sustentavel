@@ -10,15 +10,11 @@ namespace Database.Model
         private int _energyBefore;
         private int _power;
         private int _energyAfter;
-        private string _infoText;
-        private string _positiveText;
-        private string _negativeText;
+        private string _finalInfoText;
         private string _imagePath;
         private string _arrangementImagePath;
-        
-        public Lamp(int id, string name, int unitCount, double unitPrice, int points, int energyBefore, 
-            int power, int energyAfter, string infoText, string positiveText, string negativeText, 
-            string imagePath, string arrangementImagePath)
+
+        public Lamp(int id, string name, int unitCount, double unitPrice, int points, int energyBefore, int power, int energyAfter, string finalInfoText, string imagePath, string arrangementImagePath)
         {
             _id = id;
             _name = name;
@@ -28,13 +24,10 @@ namespace Database.Model
             _energyBefore = energyBefore;
             _power = power;
             _energyAfter = energyAfter;
-            _infoText = infoText;
-            _positiveText = positiveText;
-            _negativeText = negativeText;
+            _finalInfoText = finalInfoText;
             _imagePath = imagePath;
             _arrangementImagePath = arrangementImagePath;
         }
-
 
         public int ID
         {
@@ -84,23 +77,12 @@ namespace Database.Model
             set => _energyAfter = value;
         }
 
-        public string InfoText
+        public string FinalInfoText
         {
-            get => _infoText;
-            set => _infoText = value;
+            get => _finalInfoText;
+            set => _finalInfoText = value;
         }
 
-        public string PositiveText
-        {
-            get => _positiveText;
-            set => _positiveText = value;
-        }
-
-        public string NegativeText
-        {
-            get => _negativeText;
-            set => _negativeText = value;
-        }
         public string ImagePath
         {
             get => _imagePath;

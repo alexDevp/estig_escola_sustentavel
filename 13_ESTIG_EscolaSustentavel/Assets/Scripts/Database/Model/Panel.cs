@@ -12,13 +12,11 @@ namespace Database.Model
         private int _dimensionHeight;
         private int _power;
         private int _energyAfter;
-        private string _infoText;
-        private string _positiveText;
-        private string _negativeText;
-        private string _image_path;
-        private string _arrangement_image_path;
+        private string _finalInfoText;
+        private string _imagePath;
+        private string _arrangementImagePath;
 
-        public Panel(int id, string name, int unitCount, double unitPrice, int points, int energyBefore, int dimensionWidth, int dimensionHeight, int power, int energyAfter, string infoText, string positiveText, string negativeText, string imagePath, string arrangementImagePath)
+        public Panel(int id, string name, int unitCount, double unitPrice, int points, int energyBefore, int dimensionWidth, int dimensionHeight, int power, int energyAfter, string finalInfoText, string imagePath, string arrangementImagePath)
         {
             _id = id;
             _name = name;
@@ -30,23 +28,9 @@ namespace Database.Model
             _dimensionHeight = dimensionHeight;
             _power = power;
             _energyAfter = energyAfter;
-            _infoText = infoText;
-            _positiveText = positiveText;
-            _negativeText = negativeText;
-            _image_path = imagePath;
-            _arrangement_image_path = arrangementImagePath;
-        }
-
-        public string ImagePath
-        {
-            get => _image_path;
-            set => _image_path = value;
-        }
-
-        public string ArrangementImagePath
-        {
-            get => _arrangement_image_path;
-            set => _arrangement_image_path = value;
+            _finalInfoText = finalInfoText;
+            _imagePath = imagePath;
+            _arrangementImagePath = arrangementImagePath;
         }
 
         public int ID
@@ -109,22 +93,22 @@ namespace Database.Model
             set => _energyAfter = value;
         }
 
-        public string InfoText
+        public string FinalInfoText
         {
-            get => _infoText;
-            set => _infoText = value;
+            get => _finalInfoText;
+            set => _finalInfoText = value;
         }
 
-        public string PositiveText
+        public string ImagePath
         {
-            get => _positiveText;
-            set => _positiveText = value;
+            get => _imagePath;
+            set => _imagePath = value;
         }
 
-        public string NegativeText
+        public string ArrangementImagePath
         {
-            get => _negativeText;
-            set => _negativeText = value;
+            get => _arrangementImagePath;
+            set => _arrangementImagePath = value;
         }
     }
 }

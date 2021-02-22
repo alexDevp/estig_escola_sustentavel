@@ -147,8 +147,12 @@ public class Game : MonoBehaviour
         if (_rendered == 0)
         {
             GenericInfo objectiveInfo = databaseManager.GetGenericInfo(7);
-            objective.text = objectiveInfo.Content;
-            _rendered = 1;
+            if (objectiveInfo != null)
+            {
+                objective.text = objectiveInfo.Content;
+                _rendered = 1;
+            }
+            
         }
     }
 
@@ -605,36 +609,13 @@ public class Game : MonoBehaviour
         Panel panel = databaseManager.GetPanels(_pickedPanels);
         Sensor sensor = databaseManager.GetSensors(_pickedSensors);
 
-        string lampText = "";
-        if (_lamps == 3)
-        {
-            lampText = lamp.PositiveText;
-        }
-        else
-        {
-            lampText = lamp.NegativeText;
-        }
-
-        string panelText = "";
-        if (_pickedPanels == 2)
-        {
-            panelText = panel.PositiveText;
-        }
-        else
-        {
-            panelText = panel.NegativeText;
-        }
-
-        string sensorText = "";
-        if (_pickedSensors == 2)
-        {
-            sensorText = sensor.PositiveText;
-        }
-        else
-        {
-            sensorText = sensor.NegativeText;
-        }
+        string lampText = lamp.FinalInfoText;
         
+
+        string panelText = panel.FinalInfoText;
+
+        string sensorText = sensor.FinalInfoText;
+
         endGame.FillEndGameTexts(_timepassed, _score, panelText, lampText, sensorText);
         endGame.ChangeColors(_pickedPanels, _pickedSensors, _pickedLamps);
         HideSnackbar();
