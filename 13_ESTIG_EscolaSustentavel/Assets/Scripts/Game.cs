@@ -25,7 +25,6 @@ public class Game : MonoBehaviour
     private int _pickedPanels = 0;
     private int _pickedSensors = 0;
     private int _timepassed = 0;
-    private int _rendered = 0;
     private LoadImages _loadImages;
     public DatabaseManager databaseManager;
 
@@ -141,21 +140,7 @@ public class Game : MonoBehaviour
         cashRemaining.text = _budget + " €";
         scoreUntilNow.text = _score + " Pts";
     }
-
-    private void Update()
-    {
-        if (_rendered == 0)
-        {
-            GenericInfo objectiveInfo = databaseManager.GetGenericInfo(7);
-            if (objectiveInfo != null)
-            {
-                objective.text = objectiveInfo.Content;
-                _rendered = 1;
-            }
-            
-        }
-    }
-
+    
     /**
      * Carrega os Valores das Opções das Lampadas na UI
      */

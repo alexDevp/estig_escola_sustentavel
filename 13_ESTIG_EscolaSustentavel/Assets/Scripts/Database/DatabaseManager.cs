@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using Database.Model;
 
@@ -457,7 +458,7 @@ namespace Database
         {
             using (DatabaseConnection)
             {
-                Score scorebd = GetScores(score.Username);
+                Score scorebd = GetScore(score.Username);
                 // Opens DBConnection
                 OpenConnection();
 
@@ -683,26 +684,26 @@ namespace Database
         /**
          * Gets rows from Panels table
          */
-        public Score GetScores(string username)
+        public Score GetScore(string username)
         {
             using (DatabaseConnection)
             {
                 // Open DB Connection
                 OpenConnection();
-                string queryCheckIfExistsPanels;
+                string queryCheckIfExistsScore;
 
                 if (String.IsNullOrEmpty(username))
                 {
-                    queryCheckIfExistsPanels = "SELECT * FROM scores;";
+                    queryCheckIfExistsScore = "SELECT * FROM scores;";
                 }
                 else
                 {
-                    queryCheckIfExistsPanels = "SELECT * FROM scores WHERE username LIKE '" + username + "';";
+                    queryCheckIfExistsScore = "SELECT * FROM scores WHERE username LIKE '" + username + "';";
                 }
 
                 using (DatabaseCommand = DatabaseConnection.CreateCommand())
                 {
-                    DatabaseCommand.CommandText = queryCheckIfExistsPanels;
+                    DatabaseCommand.CommandText = queryCheckIfExistsScore;
 
                     using (SqliteDataReader ob = DatabaseCommand.ExecuteReader())
                     {
@@ -721,6 +722,42 @@ namespace Database
                         CloseConnection();
 
                         return score;
+                    }
+                }
+            }
+        }
+        
+        public List<Score> GetScores()
+        {
+            using (DatabaseConnection)
+            {
+                // Open DB Connection
+                OpenConnection();
+                string queryCheckIfExistsScore;
+                
+                    queryCheckIfExistsScore = "SELECT * FROM scores;";
+
+                    using (DatabaseCommand = DatabaseConnection.CreateCommand())
+                {
+                    DatabaseCommand.CommandText = queryCheckIfExistsScore;
+
+                    using (SqliteDataReader ob = DatabaseCommand.ExecuteReader())
+                    {
+                        List<Score> ScoreList = new List<Score>();
+
+                        while (ob.Read() && ob.HasRows)
+                        {
+                            ScoreList.Add(new Score(Convert.ToInt32(ob["id"]), Convert.ToString(ob["username"]),
+                                Convert.ToInt32(ob["score"]),
+                                Convert.ToInt32(ob["timepassed"]), Convert.ToInt64(ob["created_at"]),
+                                Convert.ToInt32(ob["lamp_id"]),
+                                Convert.ToInt32(ob["panels_id"]), Convert.ToInt32(ob["sensors_id"])));
+                        }
+
+                        // Closes DB connection
+                        CloseConnection();
+
+                        return ScoreList;
                     }
                 }
             }
