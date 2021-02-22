@@ -63,21 +63,21 @@ namespace Database
                 string lampsTable =
                     "CREATE TABLE IF NOT EXISTS[lamps] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(50) NOT NULL," +
                     " unit_count INTEGER NOT NULL, unit_price REAL NOT NULL, points INTEGER NOT NULL, energy_before INTEGER NOT NULL," +
-                    " energy_after INTEGER NOT NULL, power INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL," +
+                    " energy_after INTEGER NOT NULL, power INTEGER NOT NULL, final_info_text VARCHAR(250) NOT NULL," +
                     " image_path VARCHAR(250) NOT NULL, arrangement_image_path VARCHAR(250) NOT NULL);";
 
                 string sensorsTable =
                     "CREATE TABLE IF NOT EXISTS[sensors] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(50) NOT NULL," +
                     " unit_count INTEGER NOT NULL, unit_price REAL NOT NULL, points INTEGER NOT NULL, energy_before INTEGER NOT NULL," +
                     " reach INTEGER NOT NULL, angle INTEGER NOT NULL," +
-                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL, " +
+                    " energy_after INTEGER NOT NULL, final_info_text VARCHAR(250) NOT NULL," +
                     "image_path VARCHAR(250) NOT NULL, arrangement_image_path VARCHAR(250) NOT NULL);";
 
                 string panelsTable =
                     "CREATE TABLE IF NOT EXISTS[panels] (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(50) NOT NULL," +
                     " unit_count INTEGER NOT NULL, unit_price REAL NOT NULL, points INTEGER NOT NULL, energy_before INTEGER NOT NULL," +
                     " dimension_w INTEGER NOT NULL, dimension_h INTEGER NOT NULL, power INTEGER NOT NULL," +
-                    " energy_after INTEGER NOT NULL, info_text VARCHAR(250) NOT NULL, positive_text VARCHAR(250) NOT NULL, negative_text VARCHAR(250) NOT NULL," +
+                    " energy_after INTEGER NOT NULL, final_info_text VARCHAR(250) NOT NULL," +
                     " image_path VARCHAR(250) NOT NULL, arrangement_image_path VARCHAR(250) NOT NULL);";
 
                 string scoresTable =
@@ -239,21 +239,28 @@ namespace Database
                 double priceLamp2 = 11.0;
                 double priceLamp3 = 18.0;
 
+                // Final info text for each solution
+                string infoLamp1 = "Embora tenha o menor custo por total e por unidade de todas as Soluções, o facto de serem necessárias 644 Lâmpadas torna esta a " +
+                    "pior Solução no que toca ao Desperdício Ambiental tanto na produção das unidades necessários como na sua posterior disposição";                
+                string infoLamp2 = "Embora tenha um maior custo unitário e total, esta Solução revela-se a ser melhor que as Lâmpadas de 10W pelo facto de serem necessárias" +
+                    " menos tendo assim um menor custo no que toca ao Desperdício Ambiental tanto na produção das unidades necessários como na sua posterior disposição";
+                string infoLamp3 = "Embora tenha o maior custo unitário, ao serem necessarias menos Lâmpadas esta Solução acaba por ter um menor custo que as Lâmpadas" +
+                    " de 20W a nível financeiro e a nível Ambiental tanto na produção das unidades necessários como na sua posterior disposição";
+
                 // Values for query
-                string lamp1 = "'LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before +
-                               ", " + energyAfterLamp1 +
-                               ", 10, '', '', '', 'Images/Implementations/Leds/led_1', 'Images/Placements/Leds/leds_1'";
-                string lamp2 = "'LED 20W', " + unitLamp2 + ", " + priceLamp2 +
-                               ", 500," + energy_before + ", " + energyAfterLamp2 +
-                               ", 20, '', '', '', 'Images/Implementations/Leds/led_2', 'Images/Placements/Leds/leds_2'";
-                string lamp3 = "'LED 50W', " + unitLamp3 +
-                               ", " + priceLamp3 + ", 1500, " + energy_before + ", " + energyAfterLamp3 +
-                               ", 50, '', '', '','Images/Implementations/Leds/led_3', 'Images/Placements/Leds/leds_3'";
+                string lamp1 = "'LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before + ", " + energyAfterLamp1 +
+                               ", 10, " + infoLamp1 + ", 'Images/Implementations/Leds/led_1', 'Images/Placements/Leds/leds_1'";
+
+                string lamp2 = "'LED 20W', " + unitLamp2 + ", " + priceLamp2 + ", 500," + energy_before + ", " + energyAfterLamp2 +
+                                ", 20, " + infoLamp2 + ", 'Images/Implementations/Leds/led_2', 'Images/Placements/Leds/leds_2'";
+
+                string lamp3 = "'LED 50W', " + unitLamp3 + ", " + priceLamp3 + ", 1500, " + energy_before + ", " + energyAfterLamp3 +
+                                ", 50, " + infoLamp3 + ", 'Images/Implementations/Leds/led_3', 'Images/Placements/Leds/leds_3'";
 
                 // Query to insert in DB
                 string insert =
                     string.Format(
-                        "INSERT INTO lamps(name, unit_count, unit_price, points, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});",
+                        "INSERT INTO lamps(name, unit_count, unit_price, points, energy_before, energy_after, power, final_info_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});",
                         lamp1, lamp2, lamp3);
 
                 // Executes the insert
@@ -310,19 +317,25 @@ namespace Database
                 int angleSensor1 = 180;
                 int angleSensor2 = 360;
 
+                // Final info text for each solution
+                string infoSens1 = "Com um preço unitário mais caro que os Sensores de 360º e com a necessidade do dobro das " +
+                                    "unidades para cobrir a mesma área esta Solução torna-se a mais desvantajosa";
+                string infoSens2 = "Com um preço unitário mais barato que os Sensores de 180º, estes tornam-se ainda mais baratos " +
+                                    "pelo simples facto de apenas sernecessário metade das unidades para cobrir a mesma área";
+               
                 // Values for query
                 string sensor1 = "'180º', " + unitSensor1 + ", " + priceSensors1 + ", " + reachSensor + ", " +
-                                 angleSensor1 + ", 500, " + energy_before +
-                                 ", " + energyAfterSensors +
-                                 ",'', '', '', 'Images/Implementations/Sensors/sensor_1', 'Images/Placements/Sensors/sensors_1'";
+                                 angleSensor1 + ", 500, " + energy_before + ", " + energyAfterSensors +
+                                 ", " + infoSens1 + ", 'Images/Implementations/Sensors/sensor_1', 'Images/Placements/Sensors/sensors_1'";
+
                 string sensor2 = "'360º', " + unitSensor2 + ", " + priceSensors2 + ", " + reachSensor + ", " +
                                  angleSensor2 + ", 1000," + energy_before + ", " + energyAfterSensors +
-                                 ", '', '', '', 'Images/Implementations/Sensors/sensor_2', 'Images/Placements/Sensors/sensors_2'";
+                                 ", " + infoSens2 + ", 'Images/Implementations/Sensors/sensor_2', 'Images/Placements/Sensors/sensors_2'";
 
                 // Query to insert in DB
                 string insert =
                     string.Format(
-                        "INSERT INTO sensors(name, unit_count, unit_price, reach, angle, points, energy_before, energy_after, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1});",
+                        "INSERT INTO sensors(name, unit_count, unit_price, reach, angle, points, energy_before, energy_after, final_info_text, image_path, arrangement_image_path) VALUES({0}), ({1});",
                         sensor1, sensor2);
 
                 // Executes the insert
@@ -388,23 +401,34 @@ namespace Database
                 int panelw3 = panelw1 + panelw2;
                 int panelh3 = panelh1 + panelh2;
 
+                // Final info text for each solution
+                string infoPanel1 = "A implementação das duas soluções dos Painéis Solares irá dar à Escola uma maior produção de energia, no entanto esta implementação " +
+                    "trará um custo bastante elevado a curto prazo pois tem um custo de quase 60 mil euros associado à sua instalação que só ao fim de vários anos é que estaria 'pago' pela energia que se poupou";
+
+                string infoPanel2 = "Esta Solução além do seu alto custo tem também uma desvantagem muito grande que é a desflorestação da àrea à volta do estacionamento." +
+                    " Ainda que um pouco cara, uma vez estando paga pela energia produzida esta começa a descontar na fatura da luz";
+
+                string infoPanel3 = "Com uma enorme área inutilizável no telhado do edifício e o baixo custo associado à Solução, esta é de facto a melhor a ser implementada";
+
                 // Values for query
                 string panel1 = "'Estacionamento', " + unitPanel1 + ", " + pricePanel1 + ", 2000," +
                                 panelw1 + "," + panelh1 + ", " + energy_before + ", " + energyAfterPanel1 +
-                                ", 20, '', '', '', 'Images/Implementations/Panels/panels_1', 'Images/Placements/Panels/panels_1'";
+                                ", 20, " + infoPanel1 +", 'Images/Implementations/Panels/panels_1', 'Images/Placements/Panels/panels_1'";
+
                 string panel2 = "'Telhado do Edifício', " + unitPanel2 + ", " + pricePanel2 +
                                 ", 3000," +
                                 panelw2 + "," + panelh2 + ", " + energy_before + ", " + energyAfterPanel2 +
-                                ", 330, '', '', '', 'Images/Implementations/Panels/panels_2', 'Images/Placements/Panels/panels_2'";
+                                ", 330, " + infoPanel2 + ", 'Images/Implementations/Panels/panels_2', 'Images/Placements/Panels/panels_2'";
+
                 string panel3 = "'Ambos os Locais', " + unitPanel3 +
                                 ", " + pricePanel3 + ", 1000," +
                                 panelw3 + "," + panelh3 + ", " + energy_before + ", " + energyAfterPanel3 +
-                                ", 350, '', '', '', 'Images/Implementations/Panels/panels_3', 'Images/Placements/Panels/panels_3'";
+                                ", 350, " + infoPanel3 + ", 'Images/Implementations/Panels/panels_3', 'Images/Placements/Panels/panels_3'";
 
                 // Query to insert in DB
                 string insert =
                     string.Format(
-                        "INSERT INTO panels(name, unit_count, unit_price, points, dimension_w, dimension_h, energy_before, energy_after, power, info_text, positive_text, negative_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});",
+                        "INSERT INTO panels(name, unit_count, unit_price, points, dimension_w, dimension_h, energy_before, energy_after, power, final_info_text, image_path, arrangement_image_path) VALUES({0}), ({1}), ({2});",
                         panel1, panel2, panel3);
 
                 // Executes the insert
@@ -544,8 +568,7 @@ namespace Database
                                 Convert.ToDouble(ob["unit_price"]), Convert.ToInt32(ob["points"]),
                                 Convert.ToInt32(ob["energy_before"]),
                                 Convert.ToInt32(ob["power"]), Convert.ToInt32(ob["energy_after"]),
-                                Convert.ToString(ob["info_text"]),
-                                Convert.ToString(ob["positive_text"]), Convert.ToString(ob["negative_text"]),
+                                Convert.ToString(ob["final_info_text"]),
                                 Convert.ToString(ob["image_path"]), Convert.ToString(ob["arrangement_image_path"]));
                         }
 
@@ -594,8 +617,7 @@ namespace Database
                                 Convert.ToInt32(ob["energy_before"]),
                                 Convert.ToInt32(ob["reach"]), Convert.ToInt32(ob["angle"]),
                                 Convert.ToInt32(ob["energy_after"]),
-                                Convert.ToString(ob["info_text"]), Convert.ToString(ob["positive_text"]),
-                                Convert.ToString(ob["negative_text"]), Convert.ToString(ob["image_path"]),
+                                Convert.ToString(ob["final_info_text"]), Convert.ToString(ob["image_path"]),
                                 Convert.ToString(ob["arrangement_image_path"]));
                         }
 
@@ -645,9 +667,7 @@ namespace Database
                                 Convert.ToInt32(ob["energy_before"]),
                                 Convert.ToInt32(ob["dimension_w"]), Convert.ToInt32(ob["dimension_h"]),
                                 Convert.ToInt32(ob["power"]),
-                                Convert.ToInt32(ob["energy_after"]), Convert.ToString(ob["info_text"]),
-                                Convert.ToString(ob["positive_text"]),
-                                Convert.ToString(ob["negative_text"]), Convert.ToString(ob["image_path"]),
+                                Convert.ToInt32(ob["energy_after"]), Convert.ToString(ob["final_info_text"]), Convert.ToString(ob["image_path"]),
                                 Convert.ToString(ob["arrangement_image_path"]));
                         }
 

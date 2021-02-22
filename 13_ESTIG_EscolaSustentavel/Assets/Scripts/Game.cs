@@ -37,6 +37,7 @@ public class Game : MonoBehaviour
     public GameObject hallSensors1;
     public GameObject hallSensors2;
     public GameObject playerUi;
+    public GameObject trees;
 
     public GameObject snackBarInstructions;
     public Text textInstructions;
@@ -481,6 +482,7 @@ public class Game : MonoBehaviour
         if (_pickedPanels == 1 && _panels != 1)
         {
             textParkingLot.SetActive(false);
+            trees.SetActive(false);
             parkingSolarPanels.SetActive(true);
             _panels = 1;
             HideSnackbar();
@@ -502,6 +504,7 @@ public class Game : MonoBehaviour
                 ShowSnackbar(genericInfo.Content);
                 textParkingLot.SetActive(false);
                 parkingSolarPanels.SetActive(true);
+                trees.SetActive(false);
                 if (_half == 1)
                 {
                     _panels = 1;
