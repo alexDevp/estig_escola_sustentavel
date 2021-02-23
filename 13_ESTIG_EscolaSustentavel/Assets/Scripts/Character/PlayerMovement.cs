@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour {
 
         move = transform.right * x + transform.forward * z;
 
-        controller.Move(move * speed * Time.deltaTime);
+        controller.Move(move * (speed * Time.deltaTime));
     }
     public bool isGrounded() {
         return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);

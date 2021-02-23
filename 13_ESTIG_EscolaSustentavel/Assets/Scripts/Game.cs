@@ -38,6 +38,9 @@ public class Game : MonoBehaviour
     public GameObject playerUi;
     public GameObject trees;
 
+    public AudioSource sucsessSound;
+    public AudioSource endSound;
+
     public GameObject snackBarInstructions;
     public Text textInstructions;
     public Text objective;
@@ -473,6 +476,7 @@ public class Game : MonoBehaviour
             textParkingLot.SetActive(false);
             trees.SetActive(false);
             parkingSolarPanels.SetActive(true);
+            sucsessSound.Play();
             _panels = 1;
             HideSnackbar();
             StartCoroutine(ShowCompleted());
@@ -481,6 +485,7 @@ public class Game : MonoBehaviour
         {
             textRoof.SetActive(false);
             roofSolarPanels.SetActive(true);
+            sucsessSound.Play();
             _panels = 1;
             HideSnackbar();
             StartCoroutine(ShowCompleted());
@@ -493,6 +498,7 @@ public class Game : MonoBehaviour
                 ShowSnackbar(genericInfo.Content);
                 textParkingLot.SetActive(false);
                 parkingSolarPanels.SetActive(true);
+                sucsessSound.Play();
                 trees.SetActive(false);
                 if (_half == 1)
                 {
@@ -509,6 +515,7 @@ public class Game : MonoBehaviour
                 ShowSnackbar(genericInfo.Content);
                 textRoof.SetActive(false);
                 roofSolarPanels.SetActive(true);
+                sucsessSound.Play();
                 if (_half == 1)
                 {
                     _panels = 1;
@@ -540,16 +547,19 @@ public class Game : MonoBehaviour
         if (_pickedLamps == 1 && _lamps != 1)
         {
             classroomLamps1.SetActive(true);
+            sucsessSound.Play();
             _lamps = 1;
         }
         else if (_pickedLamps == 2 && _lamps != 1)
         {
             classroomLamps2.SetActive(true);
+            sucsessSound.Play();
             _lamps = 1;
         }
         else if (_pickedLamps == 3 && _lamps != 1)
         {
             classroomLamps3.SetActive(true);
+            sucsessSound.Play();
             _lamps = 1;
         }
 
@@ -569,11 +579,13 @@ public class Game : MonoBehaviour
         if (_pickedSensors == 1)
         {
             hallSensors1.SetActive(true);
+            sucsessSound.Play();
             _sensors = 1;
         }
         else if (_pickedSensors == 2)
         {
             hallSensors2.SetActive(true);
+            sucsessSound.Play();
             _sensors = 1;
         }
 
@@ -593,6 +605,8 @@ public class Game : MonoBehaviour
         Lamp lamp = databaseManager.GetLamps(_pickedLamps);
         Panel panel = databaseManager.GetPanels(_pickedPanels);
         Sensor sensor = databaseManager.GetSensors(_pickedSensors);
+        
+        endSound.Play();
 
         string lampText = lamp.FinalInfoText;
         
