@@ -36,7 +36,8 @@ public class MainMenu : MonoBehaviour
         {
             GameObject tmpObject = Instantiate(scorePrefab);
             Score tmpScore = scores[i];
-            tmpObject.GetComponent<ScoreScript>().SetScore(tmpScore.Username, tmpScore.ScoreValue.ToString(), tmpScore.Timepassed.ToString());
+            tmpObject.GetComponent<ScoreScript>().SetScore(tmpScore.Username, 
+                tmpScore.ScoreValue.ToString(), tmpScore.Timepassed.ToString());
             tmpObject.transform.SetParent(scoreParent);
         }
             

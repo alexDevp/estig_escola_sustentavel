@@ -13,8 +13,8 @@ namespace UI
         public void SetScore(string name, string points, string time)
         {
             this.name.GetComponent<Text>().text = name;
-            this.points.GetComponent<Text>().text = points;
-            this.time.GetComponent<Text>().text = time;
+            this.points.GetComponent<Text>().text = points + " Pts";
+            this.time.GetComponent<Text>().text = time + " seg";
         }
     }
 }
