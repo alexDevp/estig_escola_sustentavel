@@ -27,13 +27,22 @@ public class MouseLook : MonoBehaviour
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
 
-        if (ImplementacoesMenu.menuIsOpen)
+        if (EndGame.end)
         {
             Cursor.lockState = CursorLockMode.None;
         }
         else
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            if (ImplementacoesMenu.menuIsOpen)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
+        
+        
     }
 }
