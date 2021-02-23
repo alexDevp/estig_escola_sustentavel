@@ -2667,6 +2667,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1947215361}
+        m_MethodName: Voltar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1838855367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2759,6 +2770,7 @@ MonoBehaviour:
   scorePrefab: {fileID: 1399213902862175615, guid: a2817061fa9b17c44be392d7fb67683a,
     type: 3}
   scoreParent: {fileID: 1451770172}
+  _numOfScores: 0
 --- !u!1 &1963380563
 GameObject:
   m_ObjectHideFlags: 0

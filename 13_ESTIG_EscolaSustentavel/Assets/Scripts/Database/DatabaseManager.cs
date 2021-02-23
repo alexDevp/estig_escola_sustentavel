@@ -735,7 +735,7 @@ namespace Database
                 OpenConnection();
                 string queryCheckIfExistsScore;
                 
-                    queryCheckIfExistsScore = "SELECT * FROM scores;";
+                    queryCheckIfExistsScore = "SELECT * FROM scores ORDER BY score DESC;";
 
                     using (DatabaseCommand = DatabaseConnection.CreateCommand())
                 {

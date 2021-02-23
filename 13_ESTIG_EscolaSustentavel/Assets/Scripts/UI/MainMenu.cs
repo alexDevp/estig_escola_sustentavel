@@ -17,7 +17,12 @@ public class MainMenu : MonoBehaviour
     private DatabaseManager _databaseManager;
     public GameObject scorePrefab;
     public Transform scoreParent;
-    
+
+    private void Start()
+    {
+        _databaseManager = gameObject.AddComponent<DatabaseManager>();
+    }
+
     public void Jogar()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -25,18 +30,22 @@ public class MainMenu : MonoBehaviour
 
     public void ShowScores()
     {
-        
-        _databaseManager = gameObject.AddComponent<DatabaseManager>();
         List<Score> scores = _databaseManager.GetScores();
         
-        for (int i = 0; i < scores.Count; i++)
+        for (int i = 0; i < 7 && i < scores.Count; i++)
         {
             GameObject tmpObject = Instantiate(scorePrefab);
             Score tmpScore = scores[i];
             tmpObject.GetComponent<ScoreScript>().SetScore(tmpScore.Username, tmpScore.ScoreValue.ToString(), tmpScore.Timepassed.ToString());
-            
             tmpObject.transform.SetParent(scoreParent);
         }
+            
+          
+    }
+
+    public void Voltar()
+    {
+       scoreParent.DetachChildren();
     }
     
     public void Sair()
