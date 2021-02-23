@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class EndGame : MonoBehaviour
 {
+    public static bool end = false;
+    
     public Text textTimeResume;
     public Text textScoreResume;
     public Text textPanelsResume;
@@ -28,7 +30,7 @@ public class EndGame : MonoBehaviour
     {
         endGameCanvas.SetActive(true);
         Time.timeScale = 0f;
-        Cursor.visible = true;
+        end = true;
     }
 
     public void FillEndGameTexts(int timePassed, int scores, string panelsInfo, string lampsInfo, string sensorsInfo)
