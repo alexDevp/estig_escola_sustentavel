@@ -163,9 +163,9 @@ namespace Database
                 DatabaseCommand = DatabaseConnection.CreateCommand();
 
                 string path_to_panels_roof =
-                    "'Path To Implementation', 'Dirija-se para a pequena casa branca situada no exterior da ESTIG e vá para o telhado. Procure por uma caixa azul e siga as instruções.'";
+                    "'Path To Implementation', 'Dirija-se para a pequena casa branca situada no exterior da ESTIG e vá para o telhado. Procure por uma caixa cinzenta e siga as instruções.'";
                 string path_to_panels_parking =
-                    "'Path To Implementation', 'Dirija-se para o exterior da ESTIG e vá para o parque de estacionamento. Procure por uma caixa azul e siga as instruções.'";
+                    "'Path To Implementation', 'Dirija-se para o exterior da ESTIG e vá para o parque de estacionamento. Procure por uma caixa cinzenta e siga as instruções.'";
 
                 string path_to_panels_lamps =
                     "'Path To Implementation', 'Dirija-se para dentro da ESTIG e vá para a sala L9. Siga as instruções.'";
