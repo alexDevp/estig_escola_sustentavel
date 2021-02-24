@@ -11,7 +11,7 @@ namespace Database
 
     public class DatabaseManager : MonoBehaviour
     {
-        private string DatabaseName = "/Database/13_estig_escola_sustentavel.db";
+        private string DatabaseName = "/Resources/Database/13_estig_escola_sustentavel.db";
         private SqliteConnection _databaseConnection;
         private string _filepath;
 
