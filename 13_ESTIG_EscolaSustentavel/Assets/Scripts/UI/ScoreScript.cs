@@ -15,8 +15,8 @@ namespace UI
         {
             this.name.GetComponent<Text>().text = name;
             this.points.GetComponent<Text>().text = points + " Pts";
-            TimeSpan timespan = TimeSpan.FromSeconds(time);
-            this.time.GetComponent<Text>().text = timespan.ToString(@"hh\:mm\:ss");
+            TimeSpan timeSpan = TimeSpan.FromSeconds(time);
+            this.time.GetComponent<Text>().text = timeSpan.ToString(@"hh\:mm\:ss");
         }
     }
 }
