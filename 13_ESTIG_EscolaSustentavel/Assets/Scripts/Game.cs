@@ -14,6 +14,7 @@ using UnityEngine.UI;
 public class Game : MonoBehaviour
 {
     private const double Khwprice = 0.14256;
+    private const double InitialBudget = 65000;
     private string _name = "";
     private double _budget = 65000;
     private int _panels = 0;
@@ -633,6 +634,7 @@ public class Game : MonoBehaviour
         else
         {
             _name = playerName.text;
+            _score = _score + (int) ((_budget) / 10);
             Score score = new Score(0, _name, _score, _timepassed, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds(),
                 _pickedLamps, _pickedPanels, _pickedSensors);
             databaseManager.InsertScoreIntoDB(score);
