@@ -292,7 +292,7 @@ public class Game : MonoBehaviour
         {
             completedMessage = databaseManager.GetGenericInfo(5);
             ShowSnackbar(completedMessage.Content);
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(3);
             HideSnackbar();
         }
     }
@@ -633,6 +633,7 @@ public class Game : MonoBehaviour
         else
         {
             _name = playerName.text;
+            _score = _score + (int) ((_budget) / 10);
             Score score = new Score(0, _name, _score, _timepassed, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds(),
                 _pickedLamps, _pickedPanels, _pickedSensors);
             databaseManager.InsertScoreIntoDB(score);
