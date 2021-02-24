@@ -12,6 +12,7 @@ public class Instructions : MonoBehaviour
     private void Start()
     {
         _databaseManager = gameObject.AddComponent<DatabaseManager>();
+        
     }
 
     private void Update()

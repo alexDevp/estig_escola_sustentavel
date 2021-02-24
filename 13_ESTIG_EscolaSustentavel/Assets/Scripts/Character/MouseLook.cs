@@ -30,16 +30,19 @@ public class MouseLook : MonoBehaviour
         if (EndGame.end)
         {
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else
         {
             if (ImplementacoesMenu.menuIsOpen)
             {
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
             else
             {
                 Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
         }
         

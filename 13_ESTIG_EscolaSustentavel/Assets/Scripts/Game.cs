@@ -620,7 +620,6 @@ public class Game : MonoBehaviour
         HideSnackbar();
         playerUi.SetActive(false);
         endGame.OpenMenu();
-        Cursor.visible = true;
 
     }
 
