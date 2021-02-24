@@ -171,7 +171,7 @@ namespace Database
                     "'Path To Implementation', 'Dirija-se para dentro da ESTIG e vá para a sala L9. Siga as instruções.'";
 
                 string path_to_panels_sensors =
-                    "'Path To Implementation', 'Dirija-se dentro da ESTIG e procure por instruções no corredor do bar e da sala H2O.'";
+                    "'Path To Implementation', 'Dirija-se dentro da ESTIG e procure por instruções no corredor do piso 0.'";
 
                 string implementation_completed = "'Implementation Completed', 'Solução implementada com sucesso!'";
 
@@ -241,22 +241,31 @@ namespace Database
                 double priceLamp3 = 18.0;
 
                 // Final info text for each solution
-                string infoLamp1 = "Embora tenha o menor custo por total e por unidade de todas as Soluções, o facto de serem necessárias 644 Lâmpadas torna esta a " +
-                    "pior Solução no que toca ao Desperdício Ambiental tanto na produção das unidades necessários como na sua posterior disposição";                
-                string infoLamp2 = "Embora tenha um maior custo unitário e total, esta Solução revela-se a ser melhor que as Lâmpadas de 10W pelo facto de serem necessárias" +
-                    " menos tendo assim um menor custo no que toca ao Desperdício Ambiental tanto na produção das unidades necessários como na sua posterior disposição";
-                string infoLamp3 = "Embora tenha o maior custo unitário, ao serem necessarias menos Lâmpadas esta Solução acaba por ter um menor custo que as Lâmpadas" +
-                    " de 20W a nível financeiro e a nível Ambiental tanto na produção das unidades necessários como na sua posterior disposição";
+                string infoLamp1 =
+                    "Embora tenha o menor custo por total e por unidade de todas as Soluções, o facto de serem necessárias 644 Lâmpadas torna esta a " +
+                    "pior Solução no que toca ao Desperdício Ambiental tanto na produção das unidades necessários como na sua posterior disposição";
+                string infoLamp2 =
+                    "Embora tenha um maior custo unitário e total, esta Solução revela-se a ser melhor que as Lâmpadas de 10W pelo facto de serem necessárias" +
+                    " menos unidades, tendo assim um menor custo no que toca ao Desperdício Ambiental, tanto na produção das unidades necessários, como na sua posterior disposição";
+                string infoLamp3 =
+                    "Embora tenha o maior custo unitário, ao serem necessarias menos Lâmpadas esta Solução acaba por ter um menor custo que as Lâmpadas" +
+                    " de 20W a nível financeiro e a nível Ambiental, tanto na produção das unidades necessários como na sua posterior disposição";
 
                 // Values for query
-                string lamp1 = "'LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before + ", " + energyAfterLamp1 +
-                               ", 10, '" + infoLamp1 + "', 'Images/Implementations/Leds/led_1', 'Images/Placements/Leds/leds_1'";
+                string lamp1 = "'LED 10W', " + unitLamp1 + ", " + priceLamp1 + ", 100, " + energy_before + ", " +
+                               energyAfterLamp1 +
+                               ", 10, '" + infoLamp1 +
+                               "', 'Images/Implementations/Leds/led_1', 'Images/Placements/Leds/leds_1'";
 
-                string lamp2 = "'LED 20W', " + unitLamp2 + ", " + priceLamp2 + ", 500," + energy_before + ", " + energyAfterLamp2 +
-                                ", 20, '" + infoLamp2 + "', 'Images/Implementations/Leds/led_2', 'Images/Placements/Leds/leds_2'";
+                string lamp2 = "'LED 20W', " + unitLamp2 + ", " + priceLamp2 + ", 500," + energy_before + ", " +
+                               energyAfterLamp2 +
+                               ", 20, '" + infoLamp2 +
+                               "', 'Images/Implementations/Leds/led_2', 'Images/Placements/Leds/leds_2'";
 
-                string lamp3 = "'LED 50W', " + unitLamp3 + ", " + priceLamp3 + ", 1500, " + energy_before + ", " + energyAfterLamp3 +
-                                ", 50, '" + infoLamp3 + "', 'Images/Implementations/Leds/led_3', 'Images/Placements/Leds/leds_3'";
+                string lamp3 = "'LED 50W', " + unitLamp3 + ", " + priceLamp3 + ", 1500, " + energy_before + ", " +
+                               energyAfterLamp3 +
+                               ", 50, '" + infoLamp3 +
+                               "', 'Images/Implementations/Leds/led_3', 'Images/Placements/Leds/leds_3'";
 
                 // Query to insert in DB
                 string insert =
@@ -319,19 +328,23 @@ namespace Database
                 int angleSensor2 = 360;
 
                 // Final info text for each solution
-                string infoSens1 = "Com um preço unitário mais caro que os Sensores de 360º e com a necessidade do dobro das " +
-                                    "unidades para cobrir a mesma área esta Solução torna-se a mais desvantajosa";
-                string infoSens2 = "Com um preço unitário mais barato que os Sensores de 180º, estes tornam-se ainda mais baratos " +
-                                    "pelo simples facto de apenas sernecessário metade das unidades para cobrir a mesma área";
-               
+                string infoSens1 =
+                    "Com um preço unitário mais caro que os Sensores de 360º e com a necessidade do dobro das " +
+                    "unidades para cobrir a mesma área esta Solução torna-se a mais desvantajosa";
+                string infoSens2 =
+                    "Com um preço unitário mais barato que os Sensores de 180º, estes tornam-se ainda mais baratos " +
+                    "pelo simples facto de apenas sernecessário metade das unidades para cobrir a mesma área";
+
                 // Values for query
                 string sensor1 = "'180º', " + unitSensor1 + ", " + priceSensors1 + ", " + reachSensor + ", " +
                                  angleSensor1 + ", 500, " + energy_before + ", " + energyAfterSensors +
-                                 ", '" + infoSens1 + "', 'Images/Implementations/Sensors/sensor_1', 'Images/Placements/Sensors/sensors_1'";
+                                 ", '" + infoSens1 +
+                                 "', 'Images/Implementations/Sensors/sensor_1', 'Images/Placements/Sensors/sensors_1'";
 
                 string sensor2 = "'360º', " + unitSensor2 + ", " + priceSensors2 + ", " + reachSensor + ", " +
                                  angleSensor2 + ", 1000," + energy_before + ", " + energyAfterSensors +
-                                 ", '" + infoSens2 + "', 'Images/Implementations/Sensors/sensor_2', 'Images/Placements/Sensors/sensors_2'";
+                                 ", '" + infoSens2 +
+                                 "', 'Images/Implementations/Sensors/sensor_2', 'Images/Placements/Sensors/sensors_2'";
 
                 // Query to insert in DB
                 string insert =
@@ -403,28 +416,34 @@ namespace Database
                 int panelh3 = panelh1 + panelh2;
 
                 // Final info text for each solution
-                string infoPanel1 = "A implementação das duas soluções dos Painéis Solares irá dar à Escola uma maior produção de energia, no entanto esta implementação " +
-                    "trará um custo bastante elevado a curto prazo pois tem um custo de quase 60 mil euros associado à sua instalação que só ao fim de vários anos é que estaria pago pela energia que se poupou";
+                string infoPanel1 =
+                    "Esta Solução, além do seu alto custo, tem também uma desvantagem muito grande que é a desflorestação da àrea à volta do estacionamento." +
+                    " Ainda que um pouco cara, uma vez estando paga pela energia produzida, esta começa a descontar na fatura da luz.";
 
-                string infoPanel2 = "Esta Solução além do seu alto custo tem também uma desvantagem muito grande que é a desflorestação da àrea à volta do estacionamento." +
-                    " Ainda que um pouco cara, uma vez estando paga pela energia produzida esta começa a descontar na fatura da luz";
+                string infoPanel2 =
+                    "Com uma enorme área inutilizável no telhado do edifício e o baixo custo associado à Solução, esta é, de facto, a melhor a ser implementada, pois tem o melhor custo/benefício.";
 
-                string infoPanel3 = "Com uma enorme área inutilizável no telhado do edifício e o baixo custo associado à Solução, esta é de facto a melhor a ser implementada";
+                string infoPanel3 =
+                    "A implementação das duas soluções dos Painéis Solares irá dar à Escola uma maior produção de energia. No entanto, esta implementação " +
+                    "trará um custo bastante elevado a curto prazo, pois tem um custo de quase 60 mil euros associado à sua instalação, que só ao fim de vários anos é que estaria pago pela energia que se poupou.";
 
                 // Values for query
                 string panel1 = "'Estacionamento', " + unitPanel1 + ", " + pricePanel1 + ", 2000," +
                                 panelw1 + "," + panelh1 + ", " + energy_before + ", " + energyAfterPanel1 +
-                                ", 20, '" + infoPanel1 +"', 'Images/Implementations/Panels/panels_1', 'Images/Placements/Panels/panels_1'";
+                                ", 20, '" + infoPanel1 +
+                                "', 'Images/Implementations/Panels/panels_1', 'Images/Placements/Panels/panels_1'";
 
                 string panel2 = "'Telhado do Edifício', " + unitPanel2 + ", " + pricePanel2 +
                                 ", 3000," +
                                 panelw2 + "," + panelh2 + ", " + energy_before + ", " + energyAfterPanel2 +
-                                ", 330, '" + infoPanel2 + "', 'Images/Implementations/Panels/panels_2', 'Images/Placements/Panels/panels_2'";
+                                ", 330, '" + infoPanel2 +
+                                "', 'Images/Implementations/Panels/panels_2', 'Images/Placements/Panels/panels_2'";
 
                 string panel3 = "'Ambos os Locais', " + unitPanel3 +
                                 ", " + pricePanel3 + ", 1000," +
                                 panelw3 + "," + panelh3 + ", " + energy_before + ", " + energyAfterPanel3 +
-                                ", 350, '" + infoPanel3 + "', 'Images/Implementations/Panels/panels_3', 'Images/Placements/Panels/panels_3'";
+                                ", 350, '" + infoPanel3 +
+                                "', 'Images/Implementations/Panels/panels_3', 'Images/Placements/Panels/panels_3'";
 
                 // Query to insert in DB
                 string insert =
@@ -465,7 +484,7 @@ namespace Database
                 using (DatabaseCommand = DatabaseConnection.CreateCommand())
                 {
                     string insert;
-                    
+
                     if (scorebd != null)
                     {
                         insert = string.Format(
@@ -668,7 +687,8 @@ namespace Database
                                 Convert.ToInt32(ob["energy_before"]),
                                 Convert.ToInt32(ob["dimension_w"]), Convert.ToInt32(ob["dimension_h"]),
                                 Convert.ToInt32(ob["power"]),
-                                Convert.ToInt32(ob["energy_after"]), Convert.ToString(ob["final_info_text"]), Convert.ToString(ob["image_path"]),
+                                Convert.ToInt32(ob["energy_after"]), Convert.ToString(ob["final_info_text"]),
+                                Convert.ToString(ob["image_path"]),
                                 Convert.ToString(ob["arrangement_image_path"]));
                         }
 
@@ -726,7 +746,7 @@ namespace Database
                 }
             }
         }
-        
+
         public List<Score> GetScores()
         {
             using (DatabaseConnection)
@@ -734,10 +754,10 @@ namespace Database
                 // Open DB Connection
                 OpenConnection();
                 string queryCheckIfExistsScore;
-                
-                    queryCheckIfExistsScore = "SELECT * FROM scores ORDER BY score DESC;";
 
-                    using (DatabaseCommand = DatabaseConnection.CreateCommand())
+                queryCheckIfExistsScore = "SELECT * FROM scores ORDER BY score DESC;";
+
+                using (DatabaseCommand = DatabaseConnection.CreateCommand())
                 {
                     DatabaseCommand.CommandText = queryCheckIfExistsScore;
 

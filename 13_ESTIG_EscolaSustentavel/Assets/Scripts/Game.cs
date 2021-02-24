@@ -293,7 +293,7 @@ public class Game : MonoBehaviour
         {
             completedMessage = databaseManager.GetGenericInfo(5);
             ShowSnackbar(completedMessage.Content);
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(3);
             HideSnackbar();
         }
     }
