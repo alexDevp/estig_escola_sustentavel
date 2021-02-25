@@ -28,7 +28,7 @@ public class ParkingPanelClick : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(electricalSwitchboard.tag))
             {
-                if (_isGameNotNull && !_didImplement && (_game.PickedPanels == 1 || _game.PickedPanels == 3))
+                if (_isGameNotNull && !_didImplement && _game.ConfirmedPanels && (_game.PickedPanels == 1 || _game.PickedPanels == 3))
                 {
                     _game.ImplementPanels(1);
                     _didImplement = true;

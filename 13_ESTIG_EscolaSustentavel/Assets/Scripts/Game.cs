@@ -90,6 +90,7 @@ public class Game : MonoBehaviour
     public RawImage imageLampsPlacement;
     public GameObject textLamps;
     public Transform LampsMenu;
+    private bool _confirmedLamps = false;
 
     //Panels
     public Text panel1Quantity;
@@ -110,7 +111,7 @@ public class Game : MonoBehaviour
     public GameObject textParkingLot;
     public GameObject textRoof;
     public Transform PanelsMenu;
-
+    private bool _confirmedPanels = false;
     //PickedSensors
     public Text sensor1Quantity;
     public Text sensor2Quantity;
@@ -127,7 +128,16 @@ public class Game : MonoBehaviour
     public RawImage imageSensorsPlacement;
     public GameObject textSensors;
     public Transform SensorsMenu;
+    private bool _confirmedSensors = false;
 
+    public bool ConfirmedLamps => _confirmedLamps;
+
+    public bool ConfirmedPanels => _confirmedPanels;
+
+    public bool ConfirmedSensors => _confirmedSensors;
+
+    private Timer _timer;
+    
     /**
      * Função Start do Projeto
      */
@@ -138,9 +148,9 @@ public class Game : MonoBehaviour
 
         databaseManager = gameObject.AddComponent<DatabaseManager>();
         _loadImages = gameObject.AddComponent<LoadImages>();
-        var timer = new System.Timers.Timer(1000);
-        timer.Elapsed += HandleTimerElapsed;
-        timer.Enabled = true;
+        _timer = new System.Timers.Timer(1000);
+        _timer.Elapsed += HandleTimerElapsed;
+        _timer.Enabled = true;
         cashRemaining.text = _budget + " €";
         scoreUntilNow.text = _score + " Pts";
     }
@@ -382,6 +392,8 @@ public class Game : MonoBehaviour
         {
             textLamps.SetActive(true);
         }
+
+        _confirmedLamps = true;
     }
 
     /**
@@ -417,6 +429,8 @@ public class Game : MonoBehaviour
             textRoof.SetActive(true);
             textParkingLot.SetActive(true);
         }
+
+        _confirmedPanels = true;
     }
 
     /**
@@ -435,6 +449,8 @@ public class Game : MonoBehaviour
             cashRemaining.text = _budget + " €";
             scoreUntilNow.text = _score + " Pts";
         }
+
+        _confirmedSensors = true;
     }
 
     //******Cancelar Implementações******//
@@ -443,6 +459,7 @@ public class Game : MonoBehaviour
      */
     public void CancelLamps()
     {
+        _confirmedLamps = false;
         _pickedLamps = 0;
         LampsMenu.gameObject.SetActive(false);
         _loadImages.UnloadImage(imageLampsPlacement);
@@ -453,6 +470,7 @@ public class Game : MonoBehaviour
      */
     public void CancelPanels()
     {
+        _confirmedPanels = false;
         _pickedPanels = 0;
         PanelsMenu.gameObject.SetActive(false);
         _loadImages.UnloadImage(imagePanelsPlacement);
@@ -463,6 +481,7 @@ public class Game : MonoBehaviour
      */
     public void CancelSensors()
     {
+        _confirmedSensors = false;
         _pickedSensors = 0;
         SensorsMenu.gameObject.SetActive(false);
         _loadImages.UnloadImage(imageSensorsPlacement);
@@ -472,67 +491,71 @@ public class Game : MonoBehaviour
     //Faz aparecer paineis
     public void ImplementPanels(int panelsType)
     {
-        if (_pickedPanels == 1 && _panels != 1)
+        if (_confirmedPanels)
         {
-            textParkingLot.SetActive(false);
-            trees.SetActive(false);
-            parkingSolarPanels.SetActive(true);
-            sucsessSound.Play();
-            _panels = 1;
-            HideSnackbar();
-            StartCoroutine(ShowCompleted());
-        }
-        else if (_pickedPanels == 2 && _panels != 1)
-        {
-            textRoof.SetActive(false);
-            roofSolarPanels.SetActive(true);
-            sucsessSound.Play();
-            _panels = 1;
-            HideSnackbar();
-            StartCoroutine(ShowCompleted());
-        }
-        else if (_pickedPanels == 3)
-        {
-            if (panelsType == 1)
+            if (_pickedPanels == 1 && _panels != 1)
             {
-                GenericInfo genericInfo = databaseManager.GetGenericInfo(1);
-                ShowSnackbar(genericInfo.Content);
                 textParkingLot.SetActive(false);
+                trees.SetActive(false);
                 parkingSolarPanels.SetActive(true);
                 sucsessSound.Play();
-                trees.SetActive(false);
-                if (_half == 1)
-                {
-                    _panels = 1;
-                }
-                else
-                {
-                    _half = 1;
-                }
-            }
-            else
-            {
-                GenericInfo genericInfo = databaseManager.GetGenericInfo(2);
-                ShowSnackbar(genericInfo.Content);
-                textRoof.SetActive(false);
-                roofSolarPanels.SetActive(true);
-                sucsessSound.Play();
-                if (_half == 1)
-                {
-                    _panels = 1;
-                }
-                else
-                {
-                    _half = 1;
-                }
-            }
-
-            if (_panels == 1 && _half == 1)
-            {
+                _panels = 1;
                 HideSnackbar();
                 StartCoroutine(ShowCompleted());
             }
+            else if (_pickedPanels == 2 && _panels != 1)
+            {
+                textRoof.SetActive(false);
+                roofSolarPanels.SetActive(true);
+                sucsessSound.Play();
+                _panels = 1;
+                HideSnackbar();
+                StartCoroutine(ShowCompleted());
+            }
+            else if (_pickedPanels == 3)
+            {
+                if (panelsType == 1)
+                {
+                    GenericInfo genericInfo = databaseManager.GetGenericInfo(1);
+                    ShowSnackbar(genericInfo.Content);
+                    textParkingLot.SetActive(false);
+                    parkingSolarPanels.SetActive(true);
+                    sucsessSound.Play();
+                    trees.SetActive(false);
+                    if (_half == 1)
+                    {
+                        _panels = 1;
+                    }
+                    else
+                    {
+                        _half = 1;
+                    }
+                }
+                else
+                {
+                    GenericInfo genericInfo = databaseManager.GetGenericInfo(2);
+                    ShowSnackbar(genericInfo.Content);
+                    textRoof.SetActive(false);
+                    roofSolarPanels.SetActive(true);
+                    sucsessSound.Play();
+                    if (_half == 1)
+                    {
+                        _panels = 1;
+                    }
+                    else
+                    {
+                        _half = 1;
+                    }
+                }
+
+                if (_panels == 1 && _half == 1)
+                {
+                    HideSnackbar();
+                    StartCoroutine(ShowCompleted());
+                }
+            }
         }
+        
 
 
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
@@ -544,28 +567,32 @@ public class Game : MonoBehaviour
     //Faz aparecer lampadas
     public void ImplementLamps()
     {
-        textLamps.SetActive(false);
-        if (_pickedLamps == 1 && _lamps != 1)
+        if (_confirmedLamps)
         {
-            classroomLamps1.SetActive(true);
-            sucsessSound.Play();
-            _lamps = 1;
-        }
-        else if (_pickedLamps == 2 && _lamps != 1)
-        {
-            classroomLamps2.SetActive(true);
-            sucsessSound.Play();
-            _lamps = 1;
-        }
-        else if (_pickedLamps == 3 && _lamps != 1)
-        {
-            classroomLamps3.SetActive(true);
-            sucsessSound.Play();
-            _lamps = 1;
-        }
+            textLamps.SetActive(false);
+            if (_pickedLamps == 1 && _lamps != 1)
+            {
+                classroomLamps1.SetActive(true);
+                sucsessSound.Play();
+                _lamps = 1;
+            }
+            else if (_pickedLamps == 2 && _lamps != 1)
+            {
+                classroomLamps2.SetActive(true);
+                sucsessSound.Play();
+                _lamps = 1;
+            }
+            else if (_pickedLamps == 3 && _lamps != 1)
+            {
+                classroomLamps3.SetActive(true);
+                sucsessSound.Play();
+                _lamps = 1;
+            }
 
-        HideSnackbar();
-        StartCoroutine(ShowCompleted());
+            HideSnackbar();
+            StartCoroutine(ShowCompleted());
+        }
+        
 
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
@@ -576,22 +603,26 @@ public class Game : MonoBehaviour
     //Faz aparecer os sensores
     public void ImplementSensors()
     {
-        textSensors.SetActive(false);
-        if (_pickedSensors == 1)
+        if (_confirmedSensors)
         {
-            hallSensors1.SetActive(true);
-            sucsessSound.Play();
-            _sensors = 1;
-        }
-        else if (_pickedSensors == 2)
-        {
-            hallSensors2.SetActive(true);
-            sucsessSound.Play();
-            _sensors = 1;
-        }
+            textSensors.SetActive(false);
+            if (_pickedSensors == 1)
+            {
+                hallSensors1.SetActive(true);
+                sucsessSound.Play();
+                _sensors = 1;
+            }
+            else if (_pickedSensors == 2)
+            {
+                hallSensors2.SetActive(true);
+                sucsessSound.Play();
+                _sensors = 1;
+            }
 
-        HideSnackbar();
-        StartCoroutine(ShowCompleted());
+            HideSnackbar();
+            StartCoroutine(ShowCompleted());
+        }
+        
 
         if (_panels == 1 && _lamps == 1 && _sensors == 1)
         {
@@ -602,7 +633,7 @@ public class Game : MonoBehaviour
     //Termina o jogo e pede o nome ao jogador enquanto mostra um resumo do que fez
     public void EndGame()
     {
-        
+        _timer.Stop();
         Lamp lamp = databaseManager.GetLamps(_pickedLamps);
         Panel panel = databaseManager.GetPanels(_pickedPanels);
         Sensor sensor = databaseManager.GetSensors(_pickedSensors);
