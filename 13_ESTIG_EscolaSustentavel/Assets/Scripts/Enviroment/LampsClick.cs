@@ -29,7 +29,7 @@ public class LampsClick : MonoBehaviour
             
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(lamp.tag))
             {
-                if (_isGameNotNull && !didImplement)
+                if (_isGameNotNull && !didImplement && _game.ConfirmedLamps)
                 {
                     _game.ImplementLamps();
                     didImplement = true;

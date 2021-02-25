@@ -28,7 +28,7 @@ public class SensorsClick : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag.Equals(sensorWall.tag))
             {
-                if (_isGameNotNull && !_didImplement)
+                if (_isGameNotNull && !_didImplement && _game.ConfirmedSensors)
                 {
                     _game.ImplementSensors();
                     _didImplement = true;

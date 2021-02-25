@@ -168,10 +168,10 @@ namespace Database
                     "'Path To Implementation', 'Dirija-se para o exterior da ESTIG e vá para o parque de estacionamento. Procure por uma caixa cinzenta e siga as instruções.'";
 
                 string path_to_panels_lamps =
-                    "'Path To Implementation', 'Dirija-se para dentro da ESTIG e vá para a sala L9. Siga as instruções.'";
+                    "'Path To Implementation', 'Dirija-se para dentro da ESTIG e vá para a sala L9, situada no piso -1 do edifício. Siga as instruções.'";
 
                 string path_to_panels_sensors =
-                    "'Path To Implementation', 'Dirija-se dentro da ESTIG e procure por instruções no corredor do piso 0.'";
+                    "'Path To Implementation', 'Dirija-se para dentro da ESTIG. Procure por instruções no corredor do piso 0. Dica: está próximo da entrada...'";
 
                 string implementation_completed = "'Implementation Completed', 'Solução implementada com sucesso!'";
 
