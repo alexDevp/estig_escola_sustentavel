@@ -3,7 +3,24 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - sinkWater
+  - Torneira
+  - ActivateRoofPanel
+  - PlayerModelTag
+  - UiCanvas
+  - PlayerTeleportToRoof
+  - RootTeleportPad
+  - PlayerTeleportToGround
+  - GroundTeleportPad
+  - RoofSolarPanels
+  - ParkingLotSolarPanels
+  - ActivateParkingPanel
+  - GroudTeleportLandingPad
+  - ActivateLamps
+  - ActivateSensors
+  - GameStartPlatform
+  - EndGameStructure
   layers:
   - Default
   - TransparentFX
@@ -13,7 +30,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Ground
   - 
   - 
   - 
